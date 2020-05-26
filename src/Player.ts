@@ -1,5 +1,4 @@
-import Card from "./Card"
-import Action from "./Action"
+import { Card } from "./Card"
 
 export default abstract class Player {
 	cards: Card[] = []

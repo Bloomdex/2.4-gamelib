@@ -1,10 +1,12 @@
 import { createStore, combineReducers } from "redux"
-import playedCards from "./playedCards"
-import currentPlayer from "./currentPlayer"
+import playedCards from "./reducers/playedCards"
+import turnInfo from "./reducers/turnInfo"
+import flags from "./reducers/flags"
 
 const reducer = combineReducers({
-	thecardsthathavebeenplayed: playedCards,
-	currentPlayer: currentPlayer,
+	playedCards,
+	turnInfo,
+	flags,
 })
 
 const store = createStore(reducer)

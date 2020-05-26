@@ -1,4 +1,4 @@
-import Card from "./Card"
+import { Card } from "./Card"
 import Player from "./Player"
 import GameRules, { FullGameRules } from "./GameRules"
 import { shuffle, repeat } from "./util"
@@ -29,7 +29,7 @@ export default class Game {
 
 	private handoutStartingCards(): void {
 		for (const player of this.players) {
-			for (let i = 0; i < this.rules.startingCards; ) {
+			for (let i = 0; i < this.rules.startingCards;) {
 				if (this.remainingCards.length === 0) {
 					throw new Error("Not enough cards in deck to give all players a starting hand")
 				} else {
