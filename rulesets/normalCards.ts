@@ -60,8 +60,8 @@ export const cards: Card[] = [
 ]
 
 export const jokers = [
-	{ tags: ["Joker"], effects: [], options: [] },
-	{ tags: ["Joker"], effects: [], options: [] },
+	{ tags: ["Joker", "Black"], effects: [], options: [] },
+	{ tags: ["Joker", "Red"], effects: [], options: [] },
 ]
 
 export const withJokers = [...cards, ...jokers]

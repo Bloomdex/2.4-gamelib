@@ -1,12 +1,13 @@
 import { EffectType, TagOverride, effectUtil } from "../../effects"
 import { PlayCard, ActionType } from "../actions"
+import { RootState } from ".."
 
 const tagOverrrideUtil = effectUtil(EffectType.TagOverride)
 
 // actions that are used in this reducer
 type Action = PlayCard
 
-type State = {
+type FlagsState = {
 	tagOverride: TagOverride["override"] | null
 }
 
@@ -14,7 +15,7 @@ const defaultState = {
 	tagOverride: null,
 }
 
-export default function flags(state: State = defaultState, action: Action): State {
+export default function flags(state: FlagsState = defaultState, action: Action): FlagsState {
 	switch (action.type) {
 		case ActionType.PlayCard:
 			const { payload: card } = action

@@ -1,14 +1,14 @@
-import { SetTotalPlayers, Skip, PlayCard, ActionType } from "../actions"
+import { Initialise, Skip, PlayCard, ActionType } from "../actions"
 import { EffectType } from "../../effects"
 
-type Action = SetTotalPlayers | Skip | PlayCard
+type Action = Initialise | Skip | PlayCard
 
 enum PlayOrder {
 	Normal,
 	Reversed,
 }
 
-type State = {
+type TurnInfoState = {
 	current: number
 	total: number | null
 	playOrder: PlayOrder
@@ -16,17 +16,18 @@ type State = {
 
 const defaultState = { current: 0, total: null, playOrder: PlayOrder.Normal }
 
-export default function turnInfo(state: State = defaultState, action: Action) {
+export default function turnInfo(state: TurnInfoState = defaultState, action: Action): TurnInfoState {
 	switch (action.type) {
-		case ActionType.SetTotalPlayers:
+		case ActionType.Initialise:
 			if (state.total == null) {
 				return {
 					...state,
-					total: action.payload,
+					total: action.payload.players,
 				}
 			} else {
 				throw new Error("Cannot set total a second time")
 			}
+
 		case ActionType.PlayCard:
 			const { payload: card } = action
 			let turnModified = false
@@ -49,14 +50,13 @@ export default function turnInfo(state: State = defaultState, action: Action) {
 				// if the card had no TurnModifier, advance to the next player normally
 				newState = advancedToPlayer(newState)
 			}
-			break
-
+			return newState
 		default:
 			return state
 	}
 }
 
-const advancedToPlayer = (state: State, offset = 1): State => {
+const advancedToPlayer = (state: TurnInfoState, offset = 1): TurnInfoState => {
 	if (state.total != null) {
 		const realOffset = offset * state.playOrder === PlayOrder.Normal ? 1 : -1
 		let { current } = state

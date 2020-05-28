@@ -15,22 +15,32 @@ export type TurnModifier = {
 	turns: number
 }
 
+export type TurnModifierUnresolved = TurnModifier & {
+	turns: symbol
+}
+
 export type ReversePlayOrder = {
 	type: Type.ReversePlayOrder
 }
 
-export type TagOverride<T = string | null> = {
+export type TagOverride = {
 	type: Type.TagOverride
-	override: [number | null, T] // a from, to tuple
+	override: [number | null, string] // a from, to tuple
+}
+
+export type TagOverrideUnresolved = TagOverride & {
+	override: [TagOverride["override"][0], symbol]
 }
 
 type EffectTypeToEffect = {
 	[Type.TurnModifier]: TurnModifier
 	[Type.ReversePlayOrder]: ReversePlayOrder
-	[Type.TagOverride]: TagOverride<string>
+	[Type.TagOverride]: TagOverride
 }
 
-type Effect = TurnModifier | ReversePlayOrder | TagOverride<string>
+export type EffectUnresolved = TurnModifierUnresolved | TagOverrideUnresolved
+type Effect = TurnModifier | ReversePlayOrder | TagOverride
+
 export default Effect
 
 export const effectUtil = <T extends Type>(effectType: T) => ({
