@@ -1,13 +1,12 @@
-import Effect, { EffectUnresolved } from "./effects"
+import Effect, { EffectUnresolved, OptionId } from "./effects"
 
 export interface Card {
 	tags: string[]
 	effects: (Effect | EffectUnresolved)[]
-	options: Record<string, Option>
+	options: Record<OptionId, Option>
 }
 
 export type Option = {
-	id: Symbol
 	choices: string[]
 }
 
@@ -39,13 +38,12 @@ JSON.parse(`
 `)
 */
 
-type OptionsMap = Record<symbol, any>
+type OptionsMap = Record<string, any>
 
 export function resolveOptions(obj: any, options: OptionsMap) {
 	const newObj = { ...obj }
 	for (const [key, value] of Object.entries(obj)) {
-		if (typeof value === "symbol") {
-			// @ts-ignore
+		if (typeof value === "string" && value in options) {
 			newObj[key] = options[value]
 		} else if (typeof value === "object") {
 			newObj[key] = resolveOptions(value, options)

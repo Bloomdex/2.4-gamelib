@@ -1,11 +1,12 @@
 import { Initialise, Skip, PlayCard, ActionType } from "../actions"
 import { EffectType } from "../../effects"
+import { resolveOptions } from "../../Card"
 
 type Action = Initialise | Skip | PlayCard
 
 enum PlayOrder {
-	Normal,
-	Reversed,
+	Normal = 1,
+	Reversed = -1,
 }
 
 type TurnInfoState = {
@@ -16,8 +17,10 @@ type TurnInfoState = {
 
 const defaultState = { current: 0, total: null, playOrder: PlayOrder.Normal }
 
+// Reducer that keeps track of the turns
 export default function turnInfo(state: TurnInfoState = defaultState, action: Action): TurnInfoState {
 	switch (action.type) {
+		// Initialise the playercount
 		case ActionType.Initialise:
 			if (state.total == null) {
 				return {
@@ -27,19 +30,22 @@ export default function turnInfo(state: TurnInfoState = defaultState, action: Ac
 			} else {
 				throw new Error("Cannot set total a second time")
 			}
-
+		// When playing a card, handle progressing the turn
 		case ActionType.PlayCard:
-			const { payload: card } = action
+			let { payload: card } = action
+			card = resolveOptions(card, action.options)
 			let turnModified = false
 			let newState = state
 			for (const effect of card.effects) {
 				switch (effect.type) {
+					// Reverse the turn order
 					case EffectType.ReversePlayOrder:
 						newState = {
 							...newState,
 							playOrder: switchPlayOrder(newState.playOrder),
 						}
 						break
+					// Modify the current turn, for example by skipping a player
 					case EffectType.TurnModifier:
 						newState = advancedToPlayer(newState, effect.turns)
 						turnModified = true
@@ -56,9 +62,14 @@ export default function turnInfo(state: TurnInfoState = defaultState, action: Ac
 	}
 }
 
+/**
+ * Calculate a next state where the currentplayer is advanced from a base state
+ * @param state the base state to advance from
+ * @param offset the amount of turns to advance, 1 means next player, 0 means stay at the current player, 2 means skip next
+ */
 const advancedToPlayer = (state: TurnInfoState, offset = 1): TurnInfoState => {
 	if (state.total != null) {
-		const realOffset = offset * state.playOrder === PlayOrder.Normal ? 1 : -1
+		const realOffset = offset * state.playOrder
 		let { current } = state
 		current = (current + realOffset) % state.total
 		if (current < 0) {

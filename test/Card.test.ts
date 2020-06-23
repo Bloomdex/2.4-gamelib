@@ -1,16 +1,17 @@
 import test from "ava"
+import { v4 as uuid } from "uuid"
 import { resolveOptions } from "../src/Card"
 
 test("not nested", (t) => {
-	const symbolA = Symbol()
+	const optionA = uuid()
 
 	const obj = {
 		name: "obj",
-		someProp: symbolA,
+		someProp: optionA,
 	}
 
 	const options = {
-		[symbolA]: "some value",
+		[optionA]: "some value",
 	}
 
 	const resolved = resolveOptions(obj, options)
@@ -19,20 +20,20 @@ test("not nested", (t) => {
 })
 
 test("nested", (t) => {
-	const symbolA = Symbol()
-	const symbolB = Symbol()
+	const optionA = uuid()
+	const optionB = uuid()
 
 	const obj = {
 		name: "obj",
-		someProp: symbolA,
+		someProp: optionA,
 		nested: {
-			someProp: symbolB,
+			someProp: optionB,
 		},
 	}
 
 	const options = {
-		[symbolA]: "some value",
-		[symbolB]: "Some other value",
+		[optionA]: "some value",
+		[optionB]: "Some other value",
 	}
 
 	const resolved = resolveOptions(obj, options)

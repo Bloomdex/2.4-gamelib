@@ -17,8 +17,10 @@ const defaultState: CardsState = {
 	hands: [],
 }
 
+// Reducer that handles keeping track of cards, in both piles and hands
 export default function cards(state: CardsState = defaultState, action: Action, root: RootState): CardsState {
 	switch (action.type) {
+		// Hand out cards to each player, from the draw pile, after shuffling it.
 		case ActionType.Initialise:
 			const remaining = [...action.payload.cardsInRandomOrder]
 			const hands = new Array(action.payload.players).map(() => [])
@@ -37,6 +39,7 @@ export default function cards(state: CardsState = defaultState, action: Action, 
 				remaining,
 				hands,
 			}
+		// Play a card from the players hand
 		case ActionType.PlayCard:
 			return {
 				...state,

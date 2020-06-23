@@ -2,23 +2,29 @@ import GameRules from "../src/GameRules"
 import { withJokers } from "./normalCards"
 import clone from "clone-deep"
 import { EffectType } from "../src/effects"
+import { v4 as uuid } from "uuid"
+
+const tagOverrideOption = `tag-override-${uuid()}`
 
 const Pesten: GameRules = {
-	cards: clone(withJokers).map((card) => {
-		const { tags, effects, options } = card
-		if (tags[0] === "J") {
-			options.push({
-				question: "What suit?",
-				choices: withJokers
-					.map((c) => c.tags[1])
-					.reduce<string[]>((acc, curr) => (acc.includes(curr) ? acc : [...acc, curr]), []),
-			})
-			effects.push({
-				type: EffectType.TagOverride,
-				override: [tags[1], "some other tag"],
-			})
+	cards: withJokers.map((card) => {
+		const { tags, effects, options, ...rest } = clone(card)
+		switch (tags[0]) {
+			case "7":
+				effects.push({ type: EffectType.TurnModifier, turns: 0 })
+				break
+
+			case "8":
+				effects.push({ type: EffectType.TurnModifier, turns: 2 })
+				break
+
+			case "J":
+				effects.push({ type: EffectType.TagOverride, override: [1, tagOverrideOption] })
+				options[tagOverrideOption] = {
+					choices: ["Clubs", "Diamonds", "Hearts", "Spades"],
+				}
 		}
-		return card
+		return { tags, effects, options, ...rest }
 	}),
 	minPlayers: 2,
 	startingCards: 7,

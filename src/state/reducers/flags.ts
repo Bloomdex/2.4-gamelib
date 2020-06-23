@@ -15,6 +15,7 @@ const defaultState = {
 	tagOverride: null,
 }
 
+// Reducer to keep track of global flags
 export default function flags(state: FlagsState = defaultState, action: Action): FlagsState {
 	switch (action.type) {
 		case ActionType.PlayCard:

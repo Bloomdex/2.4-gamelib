@@ -21,7 +21,7 @@ export type Initialise = {
 export type PlayCard = {
 	type: ActionType.PlayCard
 	payload: Card
-	options?: Record<symbol, any>
+	options: Record<string, any>
 }
 
 // TOOD: resolve options in middleware

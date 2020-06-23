@@ -3,7 +3,9 @@
 	"version": "0.1.0",
 	"description": "A library for the game and card logic in stateofthecards",
 	"main": "dist/index.js",
-	"scripts": {},
+	"scripts": {
+		"test": "tsc --noEmit && ava"
+	},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/Bloomdex/2.4-gamelib.git"
@@ -17,13 +19,15 @@
 	"devDependencies": {
 		"@types/clone-deep": "^4.0.1",
 		"@types/redux": "^3.6.0",
+		"@types/uuid": "^8.0.0",
 		"ava": "^3.8.2",
 		"ts-node": "^8.10.1",
 		"typescript": "^3.9.3"
 	},
 	"dependencies": {
 		"clone-deep": "^4.0.1",
-		"redux": "^4.0.5"
+		"redux": "^4.0.5",
+		"uuid": "^8.1.0"
 	},
 	"ava": {
 		"extensions": [

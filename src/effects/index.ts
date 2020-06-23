@@ -10,13 +10,15 @@ enum Type {
 
 export const EffectType = Type
 
+export type OptionId = string
+
 export type TurnModifier = {
 	type: Type.TurnModifier
 	turns: number
 }
 
 export type TurnModifierUnresolved = TurnModifier & {
-	turns: symbol
+	turns: OptionId
 }
 
 export type ReversePlayOrder = {
@@ -28,8 +30,9 @@ export type TagOverride = {
 	override: [number | null, string] // a from, to tuple
 }
 
-export type TagOverrideUnresolved = TagOverride & {
-	override: [TagOverride["override"][0], symbol]
+export type TagOverrideUnresolved = {
+	type: Type.TagOverride
+	override: [number | null, OptionId]
 }
 
 type EffectTypeToEffect = {

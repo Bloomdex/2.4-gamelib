@@ -2,7 +2,6 @@ import { createStore, AnyAction, Reducer } from "redux"
 import playedCardsReducer from "./reducers/cards"
 import turnInfoReducer from "./reducers/turnInfo"
 import flagsReducer from "./reducers/flags"
-import { Action } from "./actions"
 
 // const reducer = combineReducers({
 // 	playedCards,
@@ -24,8 +23,10 @@ const reducer: Reducer<RootState, any> = (state, action) => ({
 
 const store = createStore(reducer)
 
-export default store
-export type State = ReturnType<typeof store.getState>
+const createGame = () => createStore(reducer)
+
+export default createGame
+export type State = ReturnType<ReturnType<typeof createGame>["getState"]>
 
 /*
 state is now:
