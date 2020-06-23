@@ -39,15 +39,3 @@ const createGame = (options: Initialise["payload"]) => {
 
 export default createGame
 export type State = ReturnType<ReturnType<typeof createGame>["getState"]>
-
-/*
-state is now:
-
-{
-	playedCards: [],
-	currentPlayer: {
-		current: number,
-		total: number
-	}
-}
-*/
