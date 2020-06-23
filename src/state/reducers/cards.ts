@@ -1,9 +1,10 @@
 import { Card, cardEquals } from "../../Card"
-import { PlayCard, Initialise, ActionType } from "../actions"
+import { PlayCard, Initialise, ActionType, Skip, RefillStack } from "../actions"
 import { RootState } from ".."
+import { shuffle } from "../../util"
 
 // actions that are used in this reducer
-type Action = PlayCard | Initialise
+type Action = PlayCard | Initialise | Skip | RefillStack
 
 type CardsState = {
 	played: Card[]
@@ -22,13 +23,13 @@ export default function cards(state: CardsState = defaultState, action: Action, 
 	switch (action.type) {
 		// Hand out cards to each player, from the draw pile, after shuffling it.
 		case ActionType.Initialise:
-			const remaining = [...action.payload.cardsInRandomOrder]
-			const hands = new Array(action.payload.players).map(() => [])
+			const remaining = shuffle(action.payload.seed, action.payload.gameRules.cards)
+			const hands: Card[][] = new Array(action.payload.players).map(() => [])
 			for (let j = 0; j < action.payload.gameRules.startingCards; j++) {
 				for (let i = 0; i < action.payload.players; i++) {
 					const nextCard = remaining.shift()
 					if (nextCard != null) {
-						hands[i].push()
+						hands[i].push(nextCard)
 					} else {
 						throw new Error("Not enough cards to hand out")
 					}
@@ -51,6 +52,25 @@ export default function cards(state: CardsState = defaultState, action: Action, 
 						return hand
 					}
 				}),
+			}
+		//TODO: draw card when player skips
+		case ActionType.Skip:
+			return {
+				...state,
+				remaining: state.remaining.slice(1),
+				hands: state.hands.map<Card[]>((hand, playerIndex) => {
+					if (playerIndex === root.turnInfo.current) {
+						return [...hand, ...remaining.slice(0, 1)]
+					} else {
+						return hand
+					}
+				}),
+			}
+		case ActionType.RefillStack:
+			return {
+				...state,
+				played: state.played.slice(-1),
+				remaining: shuffle(root.seed!, state.remaining.slice(-1)),
 			}
 		default:
 			return state

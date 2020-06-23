@@ -2,6 +2,7 @@ import { ActionType, Action } from "./actions"
 import { State } from "./index"
 import {} from "../../rulesets/pesten"
 import { Card } from "../Card"
+import { resolveActiveTags } from "../util"
 
 /**
  * Calculate all possible actions for a player
@@ -10,17 +11,7 @@ import { Card } from "../Card"
  */
 export default function getValidActions(state: State): Action[] {
 	const currentplayerHand = state.cards.hands[state.turnInfo.current]
-	const lastPlayedCard = state.cards.played[state.cards.played.length - 1]
-
-	const activeTags = lastPlayedCard.tags
-	const { tagOverride } = state.flags
-	if (tagOverride != null) {
-		if (tagOverride[0] != null) {
-			activeTags[tagOverride[0]] = tagOverride[1]
-		} else {
-			activeTags.push(tagOverride[1])
-		}
-	}
+	const activeTags = resolveActiveTags(state)
 
 	const playableCards = currentplayerHand.filter((card) => {
 		for (const tag of card.tags) {

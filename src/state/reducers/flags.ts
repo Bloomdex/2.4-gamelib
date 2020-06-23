@@ -1,6 +1,7 @@
 import { EffectType, TagOverride, effectUtil } from "../../effects"
 import { PlayCard, ActionType } from "../actions"
 import { RootState } from ".."
+import { resolveOptions } from "../../Card"
 
 const tagOverrrideUtil = effectUtil(EffectType.TagOverride)
 
@@ -19,7 +20,8 @@ const defaultState = {
 export default function flags(state: FlagsState = defaultState, action: Action): FlagsState {
 	switch (action.type) {
 		case ActionType.PlayCard:
-			const { payload: card } = action
+			let { payload: card } = action
+			card = resolveOptions(card, action.options)
 			let newState = state
 			if (tagOverrrideUtil.has(card)) {
 				const tagOverride = tagOverrrideUtil.get(card)!

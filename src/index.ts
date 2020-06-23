@@ -7,4 +7,4 @@
 
 export { default } from "./state/index"
 export { default as validAction } from "./state/validActions"
-export { PlayCard, Initialise, Skip, Action } from "./state/actions"
+export { PlayCard, Skip, Action } from "./state/actions"
