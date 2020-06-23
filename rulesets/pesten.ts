@@ -23,6 +23,10 @@ const Pesten: GameRules = {
 				options[tagOverrideOption] = {
 					choices: ["Clubs", "Diamonds", "Hearts", "Spades"],
 				}
+				break
+			case "A":
+				effects.push({ type: EffectType.ReversePlayOrder })
+				break
 		}
 		return { tags, effects, options, ...rest }
 	}),
