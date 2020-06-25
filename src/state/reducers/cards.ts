@@ -38,8 +38,12 @@ export default function cards(state: CardsState = defaultState, action: Action, 
 					}
 				}
 			}
+			const firstCard = remaining.shift()
+			if (firstCard == null) {
+				throw new Error("Not enough cards to hand out")
+			}
 			return {
-				played: [],
+				played: [firstCard],
 				remaining,
 				hands,
 			}
