@@ -2,7 +2,7 @@
 import { Middleware } from "redux"
 import { RootState } from "."
 import { ActionType, Action } from "./actions"
-import { shuffle, resolveActiveTags } from "../util"
+import { resolveActiveTags } from "../util"
 
 export const checkEmptyStack: Middleware<{}, RootState> = (store) => (next) => (action: Action) => {
 	next(action)

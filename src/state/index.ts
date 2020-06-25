@@ -1,4 +1,4 @@
-import { createStore, AnyAction, Reducer, applyMiddleware } from "redux"
+import { createStore, Reducer, applyMiddleware } from "redux"
 import playedCardsReducer from "./reducers/cards"
 import turnInfoReducer from "./reducers/turnInfo"
 import flagsReducer from "./reducers/flags"
@@ -25,8 +25,6 @@ const reducer: Reducer<RootState, any> = (state, action) => ({
 	flags: flagsReducer(state?.flags, action),
 	seed: seedReducer(state?.seed, action),
 })
-
-const store = createStore(reducer)
 
 const createGame = (options: Initialise["payload"]) => {
 	const store = createStore(reducer, applyMiddleware(checkCardTags, checkEmptyStack))
