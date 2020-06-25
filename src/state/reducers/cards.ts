@@ -60,7 +60,7 @@ export default function cards(state: CardsState = defaultState, action: Action, 
 				remaining: state.remaining.slice(1),
 				hands: state.hands.map<Card[]>((hand, playerIndex) => {
 					if (playerIndex === root.turnInfo.current) {
-						return [...hand, ...remaining.slice(0, 1)]
+						return [...hand, ...state.remaining.slice(0, 1)]
 					} else {
 						return hand
 					}
