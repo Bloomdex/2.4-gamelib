@@ -26,14 +26,18 @@ const reducer: Reducer<RootState, any> = (state, action) => ({
 	seed: seedReducer(state?.seed!, action),
 })
 
+const middleware = applyMiddleware(checkCardTags, checkEmptyStack)
+
 const createGame = (options: Initialise["payload"]) => {
-	const store = createStore(reducer, applyMiddleware(checkCardTags, checkEmptyStack))
+	const store = createStore(reducer, middleware)
 	store.dispatch({
 		type: ActionType.Initialise,
 		payload: options,
 	})
 	return store
 }
+
+export const restoreGame = (existingState: RootState) => createStore(reducer, existingState, middleware)
 
 export default createGame
 export type State = ReturnType<ReturnType<typeof createGame>["getState"]>
