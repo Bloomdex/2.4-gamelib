@@ -16,7 +16,7 @@ export type Initialise = {
 	payload: {
 		players: number
 		gameRules: GameRules
-		seed: () => number
+		seed: string
 	}
 }
 

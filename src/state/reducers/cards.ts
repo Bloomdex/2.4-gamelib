@@ -23,8 +23,11 @@ export default function cards(state: CardsState = defaultState, action: Action, 
 	switch (action.type) {
 		// Hand out cards to each player, from the draw pile, after shuffling it.
 		case ActionType.Initialise:
-			const remaining = shuffle(action.payload.seed, action.payload.gameRules.cards)
-			const hands: Card[][] = new Array(action.payload.players).map(() => [])
+			const remaining = shuffle({ seed: action.payload.seed, useCounter: 0 }, action.payload.gameRules.cards)
+			const hands: Card[][] = []
+			for (let i = 0; i < action.payload.players; i++) {
+				hands[i] = []
+			}
 			for (let j = 0; j < action.payload.gameRules.startingCards; j++) {
 				for (let i = 0; i < action.payload.players; i++) {
 					const nextCard = remaining.shift()

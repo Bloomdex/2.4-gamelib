@@ -1,10 +1,14 @@
 import random from "seed-random"
 import { RootState } from "./state"
+import seedReducer from "./state/reducers/seed"
 
-export function shuffle<T>(rand: ReturnType<typeof random>, arr: readonly T[]): T[] {
+export function shuffle<T>({ seed, useCounter }: ReturnType<typeof seedReducer>, arr: readonly T[]): T[] {
 	// https://stackoverflow.com/a/2450976
 	// Fisher-Yates (aka Knuth) Shuffle
-
+	const rand = random(seed)
+	for (let i = 0; i < useCounter; i++) {
+		rand()
+	}
 	const result = [...arr]
 	let currentIndex = result.length,
 		temporaryValue,
