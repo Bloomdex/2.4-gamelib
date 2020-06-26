@@ -2,8 +2,8 @@ import Effect, { EffectUnresolved, OptionId } from "./effects"
 
 export interface Card {
 	tags: string[]
-	effects: (Effect | EffectUnresolved)[]
-	options: Record<OptionId, Option>
+	effects?: (Effect | EffectUnresolved)[]
+	options?: Record<OptionId, Option>
 }
 
 export type Option = {

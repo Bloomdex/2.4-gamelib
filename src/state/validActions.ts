@@ -26,7 +26,7 @@ export default function getValidActions(state: State): Action[] {
 
 	// Convert all the possible cards to actions
 	for (const card of playableCards) {
-		if (Object.keys(card.options).length === 0) {
+		if (card.options == null || Object.keys(card.options).length === 0) {
 			possibleActions.push({
 				type: ActionType.PlayCard,
 				payload: card,

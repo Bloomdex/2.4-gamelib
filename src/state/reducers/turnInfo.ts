@@ -36,20 +36,22 @@ export default function turnInfo(state: TurnInfoState = defaultState, action: Ac
 			card = resolveOptions(card, action.options)
 			let turnModified = false
 			let newState = state
-			for (const effect of card.effects) {
-				switch (effect.type) {
-					// Reverse the turn order
-					case EffectType.ReversePlayOrder:
-						newState = {
-							...newState,
-							playOrder: switchPlayOrder(newState.playOrder),
-						}
-						break
-					// Modify the current turn, for example by skipping a player
-					case EffectType.TurnModifier:
-						newState = advancedToPlayer(newState, effect.turns)
-						turnModified = true
-						break
+			if (card.effects != null) {
+				for (const effect of card.effects) {
+					switch (effect.type) {
+						// Reverse the turn order
+						case EffectType.ReversePlayOrder:
+							newState = {
+								...newState,
+								playOrder: switchPlayOrder(newState.playOrder),
+							}
+							break
+						// Modify the current turn, for example by skipping a player
+						case EffectType.TurnModifier:
+							newState = advancedToPlayer(newState, effect.turns)
+							turnModified = true
+							break
+					}
 				}
 			}
 			if (!turnModified) {

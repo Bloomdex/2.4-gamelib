@@ -11,21 +11,21 @@ const pesten: GameRules = {
 		const { tags, effects, options, ...rest } = clone(card)
 		switch (tags[0]) {
 			case "7":
-				effects.push({ type: EffectType.TurnModifier, turns: 0 })
+				effects!.push({ type: EffectType.TurnModifier, turns: 0 })
 				break
 
 			case "8":
-				effects.push({ type: EffectType.TurnModifier, turns: 2 })
+				effects!.push({ type: EffectType.TurnModifier, turns: 2 })
 				break
 
 			case "J":
-				effects.push({ type: EffectType.TagOverride, override: [1, tagOverrideOption] })
-				options[tagOverrideOption] = {
+				effects!.push({ type: EffectType.TagOverride, override: [1, tagOverrideOption] })
+				options![tagOverrideOption] = {
 					choices: ["Clubs", "Diamonds", "Hearts", "Spades"],
 				}
 				break
 			case "A":
-				effects.push({ type: EffectType.ReversePlayOrder })
+				effects!.push({ type: EffectType.ReversePlayOrder })
 				break
 		}
 		return { tags, effects, options, ...rest }
