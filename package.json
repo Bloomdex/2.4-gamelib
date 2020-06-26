@@ -6,7 +6,7 @@
 	"types": "dist/src/index.d.ts",
 	"scripts": {
 		"test": "tsc --noEmit && ava",
-		"postinstall": "tsc -d"
+		"postinstall": "tsc -d --sourceMap"
 	},
 	"repository": {
 		"type": "git",
