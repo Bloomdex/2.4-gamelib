@@ -6,5 +6,5 @@
 // export const validAction = validAction
 
 export { default, restoreGame, RootState } from "./state/index"
-export { default as validAction } from "./state/validActions"
+export { default as validActions } from "./state/validActions"
 export { PlayCard, Skip, Action } from "./state/actions"
