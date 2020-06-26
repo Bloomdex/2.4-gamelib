@@ -59,6 +59,9 @@ export default function turnInfo(state: TurnInfoState = defaultState, action: Ac
 				newState = advancedToPlayer(newState)
 			}
 			return newState
+
+		case ActionType.Skip:
+			return advancedToPlayer(state)
 		default:
 			return state
 	}
