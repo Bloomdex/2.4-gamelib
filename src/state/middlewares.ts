@@ -26,3 +26,8 @@ export const checkCardTags: Middleware<{}, RootState> = (store) => (next) => (ac
 		next(action)
 	}
 }
+
+export const logger: Middleware<{}, RootState> = (store) => (next) => (action: Action) => {
+	console.log("DISPATHED ACTION", JSON.stringify(action, null, 2))
+	next(action)
+}
