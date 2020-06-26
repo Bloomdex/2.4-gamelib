@@ -45,7 +45,7 @@ export function resolveOptions(obj: any, options: OptionsMap) {
 		return resolveOptionsArr(obj, options)
 	}
 	const newObj = { ...obj }
-	for (let [key, value] of Object.entries(obj)) {
+	for (const [key, value] of Object.entries(obj)) {
 		if (typeof value === "string" && value in options) {
 			newObj[key] = options[value]
 		} else if (typeof value === "object") {
