@@ -78,7 +78,7 @@ export const advancedToPlayer = (state: TurnInfoState, offset = 1): TurnInfoStat
 		let { current } = state
 		current = (current + realOffset) % state.total
 		if (current < 0) {
-			current = state.total - current
+			current = state.total + current
 		}
 		return {
 			...state,
