@@ -3,7 +3,7 @@ import { PlayCard, Initialise, ActionType, Skip, RefillStack } from "../actions"
 import { RootState } from ".."
 import { shuffle } from "../../util"
 import { effectUtil, EffectType } from "../../effects"
-import { SeedState } from "./seed"
+import turnInfo from "./turnInfo"
 
 // actions that are used in this reducer
 type Action = PlayCard | Initialise | Skip | RefillStack
@@ -12,6 +12,12 @@ type CardsState = {
 	played: Card[]
 	remaining: Card[]
 	hands: Card[][]
+	seed: SeedState
+}
+
+type SeedState = {
+	seed: string
+	useCounter: number
 }
 
 const cardDrawUtil = effectUtil(EffectType.DrawCard)
@@ -20,6 +26,10 @@ const defaultState: CardsState = {
 	played: [],
 	remaining: [],
 	hands: [],
+	seed: {
+		seed: "",
+		useCounter: 0,
+	},
 }
 
 // Reducer that handles keeping track of cards, in both piles and hands
@@ -50,50 +60,67 @@ export default function cards(state: CardsState = defaultState, action: Action, 
 				played: [firstCard],
 				remaining,
 				hands,
+				seed: {
+					seed: action.payload.seed,
+					useCounter: 0,
+				},
 			}
 		// Play a card from the players hand
 		case ActionType.PlayCard:
+			let newState = state
 			if (!cardDrawUtil.has(action.payload) && root.flags.cardDrawCounter != null) {
-				// TODO: draw the cards
-			} else {
-				return {
-					...state,
-					played: [...state.played, action.payload],
-					hands: state.hands.map((hand, playerIndex) => {
-						if (playerIndex === root.turnInfo.current) {
-							return hand.filter(card => !cardEquals(card, action.payload))
-						} else {
-							return hand
-						}
-					}),
-				}
+				newState = drawCard(newState, root.turnInfo.current)
 			}
-		case ActionType.Skip:
-			let newState = {
-				...state,
-				remaining: state.remaining.slice(1),
-				hands: state.hands.map<Card[]>((hand, playerIndex) => {
+			return {
+				...newState,
+				played: [...state.played, action.payload],
+				hands: state.hands.map((hand, playerIndex) => {
 					if (playerIndex === root.turnInfo.current) {
-						return [...hand, ...state.remaining.slice(0, 1)]
+						return hand.filter(card => !cardEquals(card, action.payload))
 					} else {
 						return hand
 					}
 				}),
 			}
-			if (newState.remaining.length === 0) {
-				newState = refillStack(newState, root.seed)
-			}
-			return newState
+
+		case ActionType.Skip:
+			return drawCard(state, root.turnInfo.current)
 
 		default:
 			return state
 	}
 }
 
-function refillStack(state: CardsState, seed: SeedState): CardsState {
+function refillStack(state: CardsState): CardsState {
 	return {
 		...state,
 		played: state.played.slice(-1),
-		remaining: shuffle(seed, state.remaining.slice(-1)),
+		remaining: shuffle(state.seed, state.remaining.slice(-1)),
+		seed: {
+			...state.seed,
+			useCounter: state.seed!.useCounter + 1,
+		},
+	}
+}
+
+function drawCard(state: CardsState, handIndex: number, cardAmount: number = 1): CardsState {
+	if (cardAmount > state.remaining.length) {
+		const availableInStack = state.remaining.length
+		let newState = drawCard(state, handIndex, availableInStack)
+		newState = refillStack(newState)
+		newState = drawCard(newState, handIndex, cardAmount - availableInStack)
+		return newState
+	} else {
+		return {
+			...state,
+			hands: state.hands.map((hand, index) => {
+				if (index === handIndex) {
+					return [...hand, ...state.remaining.slice(0, cardAmount)]
+				} else {
+					return hand
+				}
+			}),
+			remaining: state.remaining.slice(cardAmount),
+		}
 	}
 }
