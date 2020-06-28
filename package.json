@@ -6,7 +6,10 @@
 	"types": "dist/src/index.d.ts",
 	"scripts": {
 		"test": "tsc --noEmit && ava",
-		"postinstall": "tsc -d --sourceMap"
+		"build": "tsc -d --sourceMap",
+		"postinstall": "npm run build",
+		"format": "prettier --write ./src/**/*.ts ./test/**/*.ts ./rulesets/**/*.ts",
+		"clean": "rm -rf ./dist"
 	},
 	"repository": {
 		"type": "git",
