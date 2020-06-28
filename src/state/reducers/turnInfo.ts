@@ -4,12 +4,12 @@ import { resolveOptions } from "../../Card"
 
 type Action = Initialise | Skip | PlayCard
 
-enum PlayOrder {
+export enum PlayOrder {
 	Normal = 1,
 	Reversed = -1,
 }
 
-type TurnInfoState = {
+export type TurnInfoState = {
 	current: number
 	total: number | null
 	playOrder: PlayOrder
@@ -72,7 +72,7 @@ export default function turnInfo(state: TurnInfoState = defaultState, action: Ac
  * @param state the base state to advance from
  * @param offset the amount of turns to advance, 1 means next player, 0 means stay at the current player, 2 means skip next
  */
-const advancedToPlayer = (state: TurnInfoState, offset = 1): TurnInfoState => {
+export const advancedToPlayer = (state: TurnInfoState, offset = 1): TurnInfoState => {
 	if (state.total != null) {
 		const realOffset = offset * state.playOrder
 		let { current } = state
