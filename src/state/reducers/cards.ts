@@ -2,6 +2,7 @@ import { Card, cardEquals } from "../../Card"
 import { PlayCard, Initialise, ActionType, Skip, RefillStack } from "../actions"
 import { RootState } from ".."
 import { shuffle } from "../../util"
+import { effectUtil, EffectType } from "../../effects"
 
 // actions that are used in this reducer
 type Action = PlayCard | Initialise | Skip | RefillStack
@@ -11,6 +12,8 @@ type CardsState = {
 	remaining: Card[]
 	hands: Card[][]
 }
+
+const cardDrawUtil = effectUtil(EffectType.DrawCard)
 
 const defaultState: CardsState = {
 	played: [],
@@ -49,16 +52,20 @@ export default function cards(state: CardsState = defaultState, action: Action, 
 			}
 		// Play a card from the players hand
 		case ActionType.PlayCard:
-			return {
-				...state,
-				played: [...state.played, action.payload],
-				hands: state.hands.map((hand, playerIndex) => {
-					if (playerIndex === root.turnInfo.current) {
-						return hand.filter(card => !cardEquals(card, action.payload))
-					} else {
-						return hand
-					}
-				}),
+			if (!cardDrawUtil.has(action.payload) && root.flags.cardDrawCounter != null) {
+				// TODO: draw the cards
+			} else {
+				return {
+					...state,
+					played: [...state.played, action.payload],
+					hands: state.hands.map((hand, playerIndex) => {
+						if (playerIndex === root.turnInfo.current) {
+							return hand.filter(card => !cardEquals(card, action.payload))
+						} else {
+							return hand
+						}
+					}),
+				}
 			}
 		//TODO: draw card when player skips
 		case ActionType.Skip:
