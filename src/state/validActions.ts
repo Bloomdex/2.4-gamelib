@@ -13,7 +13,7 @@ export default function getValidActions(state: State): Action[] {
 	const currentplayerHand = state.cards.hands[state.turnInfo.current]
 	const activeTags = resolveActiveTags(state)
 
-	const playableCards = currentplayerHand.filter((card) => {
+	const playableCards = currentplayerHand.filter(card => {
 		for (const tag of card.tags) {
 			if (activeTags.includes(tag)) {
 				return true

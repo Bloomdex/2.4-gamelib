@@ -2,7 +2,7 @@ import test from "ava"
 import createGame, { validActions } from "../src/index"
 import pesten from "../rulesets/pesten"
 
-test("my life", (t) => {
+test("my life", t => {
 	const game = createGame({
 		players: 3,
 		gameRules: pesten,
@@ -14,7 +14,7 @@ test("my life", (t) => {
 })
 
 const logActions = (game: ReturnType<typeof createGame>) => {
-	validActions(game.getState()).forEach((action) => {
+	validActions(game.getState()).forEach(action => {
 		console.log(JSON.stringify(action))
 	})
 }

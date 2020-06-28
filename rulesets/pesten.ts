@@ -7,7 +7,7 @@ import { v4 as uuid } from "uuid"
 const tagOverrideOption = `tag-override-${uuid()}`
 
 const pesten: GameRules = {
-	cards: withJokers.map((card) => {
+	cards: withJokers.map(card => {
 		const { tags, effects, options, ...rest } = clone(card)
 		switch (tags[0]) {
 			case "7":

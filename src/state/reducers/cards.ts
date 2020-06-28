@@ -54,7 +54,7 @@ export default function cards(state: CardsState = defaultState, action: Action, 
 				played: [...state.played, action.payload],
 				hands: state.hands.map((hand, playerIndex) => {
 					if (playerIndex === root.turnInfo.current) {
-						return hand.filter((card) => !cardEquals(card, action.payload))
+						return hand.filter(card => !cardEquals(card, action.payload))
 					} else {
 						return hand
 					}

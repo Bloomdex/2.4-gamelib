@@ -4,14 +4,14 @@ import { RootState } from "."
 import { ActionType, Action } from "./actions"
 import { resolveActiveTags } from "../util"
 
-export const checkEmptyStack: Middleware<{}, RootState> = (store) => (next) => (action: Action) => {
+export const checkEmptyStack: Middleware<{}, RootState> = store => next => (action: Action) => {
 	next(action)
 	if (store.getState().cards.remaining.length === 1 && action.type === ActionType.Skip) {
 		store.dispatch({ type: ActionType.RefillStack })
 	}
 }
 
-export const checkCardTags: Middleware<{}, RootState> = (store) => (next) => (action: Action) => {
+export const checkCardTags: Middleware<{}, RootState> = store => next => (action: Action) => {
 	if (action.type === ActionType.PlayCard) {
 		const activeTags = resolveActiveTags(store.getState())
 
@@ -27,7 +27,7 @@ export const checkCardTags: Middleware<{}, RootState> = (store) => (next) => (ac
 	}
 }
 
-export const logger: Middleware<{}, RootState> = (store) => (next) => (action: Action) => {
+export const logger: Middleware<{}, RootState> = store => next => (action: Action) => {
 	console.log("DISPATHED ACTION", JSON.stringify(action, null, 2))
 	next(action)
 }
