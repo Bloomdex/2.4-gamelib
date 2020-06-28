@@ -1,4 +1,4 @@
-import { Card } from "../Card"
+import { Card } from "./Card"
 
 enum Type {
 	TurnModifier = "TURN_MODIFIER",
@@ -47,9 +47,9 @@ type Effect = TurnModifier | ReversePlayOrder | TagOverride
 export default Effect
 
 export const effectUtil = <T extends Type>(effectType: T) => ({
-	has: (card: Card) => card.effects?.some((e) => e.type === effectType) ?? false,
+	has: (card: Card) => card.effects?.some(e => e.type === effectType) ?? false,
 	get: (card: Card): EffectTypeToEffect[T] | undefined =>
-		card.effects?.find((e) => e.type === effectType) as EffectTypeToEffect[T] | undefined,
+		card.effects?.find(e => e.type === effectType) as EffectTypeToEffect[T] | undefined,
 })
 
 /*
