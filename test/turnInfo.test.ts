@@ -19,7 +19,7 @@ test("advancedToPlayer bruteforce", t => {
 	for (let i = 0; i < 10; i++) {
 		const { current } = advancedToPlayer(state)
 		if (current < 0 || current >= 3) {
-			t.fail()
+			t.fail(`Current went outside of it's bounds. it is: ${current}`)
 		}
 	}
 	t.pass()
