@@ -15,11 +15,12 @@ test("advancedToPlayer doesn't modify state", t => {
 	t.deepEqual(state, original)
 })
 
-test("advancedToPlayer bruteforce", t => {
+test("advancedToPlayer bruteforce normal", t => {
+	let advancingState = state
 	for (let i = 0; i < 10; i++) {
-		const { current } = advancedToPlayer(state)
-		if (current < 0 || current >= 3) {
-			t.fail(`Current went outside of it's bounds. it is: ${current}`)
+		const advancingState = advancedToPlayer(state)
+		if (advancingState.current < 0 || advancingState.current >= 3) {
+			t.fail(`Current went outside of it's bounds. it is: ${advancingState.current}`)
 		}
 	}
 	t.pass()
@@ -69,4 +70,15 @@ test("advancedToPlayer reverse wrap", t => {
 		...reversedState,
 		current: 2,
 	})
+})
+
+test("advancedToPlayer bruteforce reversed", t => {
+	let advancingState = reversedState
+	for (let i = 0; i < 10; i++) {
+		const advancingState = advancedToPlayer(state)
+		if (advancingState.current < 0 || advancingState.current >= 3) {
+			t.fail(`Current went outside of it's bounds. it is: ${advancingState.current}`)
+		}
+	}
+	t.pass()
 })
