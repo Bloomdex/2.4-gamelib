@@ -3,6 +3,7 @@ import { PlayCard, Initialise, ActionType, Skip, RefillStack } from "../actions"
 import { RootState } from ".."
 import { shuffle } from "../../util"
 import { effectUtil, EffectType } from "../../effects"
+import { SeedState } from "./seed"
 
 // actions that are used in this reducer
 type Action = PlayCard | Initialise | Skip | RefillStack
@@ -67,9 +68,8 @@ export default function cards(state: CardsState = defaultState, action: Action, 
 					}),
 				}
 			}
-		//TODO: draw card when player skips
 		case ActionType.Skip:
-			return {
+			let newState = {
 				...state,
 				remaining: state.remaining.slice(1),
 				hands: state.hands.map<Card[]>((hand, playerIndex) => {
@@ -80,13 +80,20 @@ export default function cards(state: CardsState = defaultState, action: Action, 
 					}
 				}),
 			}
-		case ActionType.RefillStack:
-			return {
-				...state,
-				played: state.played.slice(-1),
-				remaining: shuffle(root.seed!, state.remaining.slice(-1)),
+			if (newState.remaining.length === 0) {
+				newState = refillStack(newState, root.seed)
 			}
+			return newState
+
 		default:
 			return state
+	}
+}
+
+function refillStack(state: CardsState, seed: SeedState): CardsState {
+	return {
+		...state,
+		played: state.played.slice(-1),
+		remaining: shuffle(seed, state.remaining.slice(-1)),
 	}
 }

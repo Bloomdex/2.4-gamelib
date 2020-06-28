@@ -1,8 +1,8 @@
 import random from "seed-random"
 import { RootState } from "./state"
-import seedReducer from "./state/reducers/seed"
+import { SeedState } from "./state/reducers/seed"
 
-export function shuffle<T>({ seed, useCounter }: ReturnType<typeof seedReducer>, arr: readonly T[]): T[] {
+export function shuffle<T>({ seed, useCounter }: SeedState, arr: readonly T[]): T[] {
 	// https://stackoverflow.com/a/2450976
 	// Fisher-Yates (aka Knuth) Shuffle
 	const rand = random(seed)

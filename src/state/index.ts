@@ -23,7 +23,7 @@ const reducer: Reducer<RootState, any> = (state, action) => ({
 	cards: playedCardsReducer(state?.cards, action, state as RootState),
 	turnInfo: turnInfoReducer(state?.turnInfo, action),
 	flags: flagsReducer(state?.flags, action),
-	seed: seedReducer(state?.seed!, action),
+	seed: seedReducer(state?.seed!, action, state as RootState),
 })
 
 const middleware = applyMiddleware(checkCardTags, checkEmptyStack)
