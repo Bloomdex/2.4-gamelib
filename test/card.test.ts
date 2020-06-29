@@ -3,6 +3,7 @@ import { v4 as uuid } from "uuid"
 import { resolveOptions } from "../src/Card"
 import cardsReducer, { refillStack } from "../src/state/reducers/cards"
 import pesten from "../rulesets/pesten"
+import { shuffle } from "../src/util"
 
 test("resolveOptions not nested", t => {
 	const optionA = uuid()
@@ -72,7 +73,8 @@ test("refillStack", t => {
 				useCounter: state.seed.useCounter + 1,
 			},
 			played: state.played.slice(-1),
-			remaining: state.played.slice(0, -1),
+			// we can use shuffle here because the seed is exactly the same
+			remaining: shuffle(state.seed, state.played.slice(0, -1)),
 		},
 		refilled,
 	)
