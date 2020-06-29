@@ -3,17 +3,16 @@ import { Middleware } from "redux"
 import { RootState } from "."
 import { ActionType, Action } from "./actions"
 import { resolveActiveTags } from "../util"
+import { cardIsPlayable } from "./validActions"
 export const checkCardTags: Middleware<{}, RootState> = store => next => (action: Action) => {
 	if (action.type === ActionType.PlayCard) {
 		const activeTags = resolveActiveTags(store.getState())
 
-		// check if any of the tags match
-		for (const tag of action.payload.tags) {
-			if (activeTags.includes(tag)) {
-				return next(action)
-			}
+		if (cardIsPlayable(activeTags)(action.payload)) {
+			next(action)
+		} else {
+			throw new Error(`Cannot play card ${action.payload}`)
 		}
-		throw new Error(`Cannot play card ${action.payload}`)
 	} else {
 		next(action)
 	}

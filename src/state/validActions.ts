@@ -4,6 +4,23 @@ import {} from "../../rulesets/pesten"
 import { Card } from "../Card"
 import { resolveActiveTags } from "../util"
 
+export const cardIsPlayable = (activeTags: string[]) => (card: Card) => {
+	if (card.playableOnTags.length === 0) {
+		for (const tag of card.tags) {
+			if (activeTags.includes(tag)) {
+				return true
+			}
+		}
+	} else {
+		for (const tag of card.playableOnTags) {
+			if (activeTags.includes(tag)) {
+				return true
+			}
+		}
+	}
+	return false
+}
+
 /**
  * Calculate all possible actions for a player
  * @param state the base state to advance from
@@ -23,22 +40,7 @@ export default function getValidActions(state: State): Action[] {
 	// 	return false
 	// })
 
-	const playableCards = currentplayerHand.filter(card => {
-		if (card.playableOnTags.length === 0) {
-			for (const tag of card.tags) {
-				if (activeTags.includes(tag)) {
-					return true
-				}
-			}
-		} else {
-			for (const tag of card.playableOnTags) {
-				if (activeTags.includes(tag)) {
-					return true
-				}
-			}
-		}
-		return false
-	})
+	const playableCards = currentplayerHand.filter(cardIsPlayable(activeTags))
 
 	const possibleActions: Action[] = []
 
