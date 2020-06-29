@@ -1,6 +1,4 @@
-import { Win, ActionType } from "../actions"
-
-type Action = Win
+import { Win, ActionType, Action } from "../actions"
 
 export type WinnerState = number | null
 

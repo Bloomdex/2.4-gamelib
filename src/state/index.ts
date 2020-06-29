@@ -3,7 +3,7 @@ import playedCardsReducer from "./reducers/cards"
 import turnInfoReducer from "./reducers/turnInfo"
 import flagsReducer from "./reducers/flags"
 import winnerReducer from "./reducers/winner"
-import { Initialise, ActionType } from "./actions"
+import { Initialise, ActionType, Action } from "./actions"
 import { checkCardTags, checkWinner } from "./middlewares"
 
 // const reducer = combineReducers({
@@ -19,7 +19,7 @@ export type RootState = {
 	winner: ReturnType<typeof winnerReducer>
 }
 
-const reducer: Reducer<RootState, any> = (state, action) => ({
+const reducer: Reducer<RootState, Action> = (state, action) => ({
 	cards: playedCardsReducer(state?.cards, action, state as RootState),
 	turnInfo: turnInfoReducer(state?.turnInfo, action),
 	flags: flagsReducer(state?.flags, action),

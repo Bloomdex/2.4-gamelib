@@ -1,12 +1,11 @@
 import { Card, cardEquals } from "../../Card"
-import { PlayCard, Initialise, ActionType, Skip } from "../actions"
+import { PlayCard, Initialise, ActionType, Skip, Action } from "../actions"
 import { RootState } from ".."
 import { shuffle, rotateArray } from "../../util"
 import { effectUtil, EffectType, PassHandsAlong } from "../../effects"
 import turnInfo from "./turnInfo"
 
 // actions that are used in this reducer
-type Action = PlayCard | Initialise | Skip
 
 type CardsState = {
 	played: Card[]
@@ -71,7 +70,7 @@ export default function cards(state: CardsState = defaultState, action: Action, 
 			if (!cardDrawUtil.has(action.payload) && root.flags.cardDrawCounter != null) {
 				newState = drawCard(newState, root.turnInfo.current)
 			}
-		
+
 			let card = action.payload
 			if (card.effects != null) {
 				for (const effect of card.effects) {
@@ -149,7 +148,7 @@ export function passHandsAlong(state: CardsState, direction: number): CardsState
 
 	state = {
 		...state,
-		hands
+		hands,
 	}
 	return state
 }

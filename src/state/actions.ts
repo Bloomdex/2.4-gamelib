@@ -9,7 +9,7 @@ export enum ActionType {
 	Win = "WIN",
 }
 
-export type Action = PlayCard | Skip | Win
+export type Action = PlayCard | Skip | Win | Initialise
 
 export type Initialise = {
 	type: ActionType.Initialise

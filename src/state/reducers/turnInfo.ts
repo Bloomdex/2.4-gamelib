@@ -1,8 +1,6 @@
-import { Initialise, Skip, PlayCard, ActionType } from "../actions"
+import { Initialise, Skip, PlayCard, ActionType, Action } from "../actions"
 import { EffectType } from "../../effects"
 import { resolveOptions } from "../../Card"
-
-type Action = Initialise | Skip | PlayCard
 
 export enum PlayOrder {
 	Normal = 1,

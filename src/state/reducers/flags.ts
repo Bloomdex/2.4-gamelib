@@ -1,12 +1,11 @@
 import { EffectType, TagOverride, effectUtil, DrawCard } from "../../effects"
-import { PlayCard, ActionType } from "../actions"
+import { PlayCard, ActionType, Action } from "../actions"
 import { resolveOptions } from "../../Card"
 
 const tagOverrrideUtil = effectUtil(EffectType.TagOverride)
 const cardDrawUtil = effectUtil(EffectType.DrawCard)
 
 // actions that are used in this reducer
-type Action = PlayCard
 
 type FlagsState = {
 	tagOverride: TagOverride["override"] | null
