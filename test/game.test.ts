@@ -1,4 +1,4 @@
-import test from "ava"
+import test, { ExecutionContext } from "ava"
 import createGame, { validActions } from "../src/index"
 import pesten from "../rulesets/pesten"
 import SeedRandom from "seed-random"
@@ -26,10 +26,44 @@ test("one action", t => {
 })
 
 test("random actions until win", t => {
+	const seeds = [
+		"a",
+		"b",
+		"c",
+		"d",
+		"e",
+		"f",
+		"g",
+		"h",
+		"i",
+		"j",
+		"k",
+		"l",
+		"m",
+		"n",
+		"o",
+		"p",
+		"q",
+		"r",
+		"s",
+		"t",
+		"u",
+		"v",
+		"w",
+		"x",
+		"y",
+		"z",
+	]
+	for (const seed of seeds) {
+		randomUntilWin(t, seed)
+	}
+})
+
+const randomUntilWin = (t: ExecutionContext, seed: string) => {
 	const game = createGame({
 		players: 3,
 		gameRules: pesten,
-		seed: "b",
+		seed: seed,
 	})
 
 	const random = SeedRandom("seed")
@@ -44,12 +78,17 @@ test("random actions until win", t => {
 			game.dispatch(nextAction)
 		} catch (e) {
 			t.log("Action history", actionHistory.map(action => JSON.stringify(action, null, 2)).join("\n---\n"))
-			t.log("Action history length: ", actionHistory.filter(action => action.type === ActionType.Skip).length)
+			t.log("Action history length: ", actionHistory.length)
+			const allHands = game
+				.getState()
+				.cards.hands.flat()
+				.map(card => card.tags)
+			t.log(`${allHands.length} Cards in hands`, allHands)
 			throw e
 		}
 	}
 	t.pass()
-})
+}
 
 const logActions = (game: ReturnType<typeof createGame>) => {
 	validActions(game.getState()).forEach(action => {
