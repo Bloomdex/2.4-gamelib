@@ -91,7 +91,7 @@ export default function cards(state: CardsState = defaultState, action: Action, 
 	}
 }
 
-function refillStack(state: CardsState): CardsState {
+export function refillStack(state: CardsState): CardsState {
 	return {
 		...state,
 		played: state.played.slice(-1),
