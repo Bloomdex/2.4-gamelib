@@ -1,12 +1,12 @@
 import { Card, cardEquals } from "../../Card"
-import { PlayCard, Initialise, ActionType, Skip, RefillStack } from "../actions"
+import { PlayCard, Initialise, ActionType, Skip } from "../actions"
 import { RootState } from ".."
 import { shuffle } from "../../util"
 import { effectUtil, EffectType } from "../../effects"
 import turnInfo from "./turnInfo"
 
 // actions that are used in this reducer
-type Action = PlayCard | Initialise | Skip | RefillStack
+type Action = PlayCard | Initialise | Skip
 
 type CardsState = {
 	played: Card[]

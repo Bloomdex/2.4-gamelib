@@ -1,17 +1,15 @@
 import { Card } from "../Card"
 import GameRules from "../GameRules"
-import random from "seed-random"
 
 export enum ActionType {
 	Initialise,
 	PlayCard,
 	Skip,
-	RefillStack,
 
 	Win,
 }
 
-export type Action = PlayCard | Skip | RefillStack | Win
+export type Action = PlayCard | Skip | Win
 
 export type Initialise = {
 	type: ActionType.Initialise
@@ -32,11 +30,6 @@ export type PlayCard = {
 
 export type Skip = {
 	type: ActionType.Skip
-}
-
-export type RefillStack = {
-	type: ActionType.RefillStack
-	payload: Card[]
 }
 
 export type Win = {
