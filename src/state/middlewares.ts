@@ -26,15 +26,17 @@ export const logger: Middleware<{}, RootState> = store => next => (action: Actio
 
 export const checkWinner: Middleware<{}, RootState> = store => next => (action: Action) => {
 	next(action)
-	for (let i = 0; i < store.getState().cards.hands.length; i++) {
-		const hand = store.getState().cards.hands[i]
+	if (action.type !== ActionType.Win) {
+		for (let i = 0; i < store.getState().cards.hands.length; i++) {
+			const hand = store.getState().cards.hands[i]
 
-		if (hand.length === 0) {
-			store.dispatch({
-				type: ActionType.Win,
-				payload: i,
-			})
-			break
+			if (hand.length === 0) {
+				store.dispatch({
+					type: ActionType.Win,
+					payload: i,
+				})
+				break
+			}
 		}
 	}
 }
