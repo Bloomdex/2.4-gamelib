@@ -6,6 +6,8 @@ enum Type {
 	ReversePlayOrder = "REVERSE_PLAY_ORDER",
 
 	TagOverride = "TAG_OVERRIDE",
+
+	DrawCard = "DRAW_CARD",
 }
 
 export const EffectType = Type
@@ -35,10 +37,16 @@ export type TagOverrideUnresolved = {
 	override: [number | null, OptionId]
 }
 
+export type DrawCard = {
+	type: Type.DrawCard
+	cards: number
+}
+
 type EffectTypeToEffect = {
 	[Type.TurnModifier]: TurnModifier
 	[Type.ReversePlayOrder]: ReversePlayOrder
 	[Type.TagOverride]: TagOverride
+	[Type.DrawCard]: DrawCard
 }
 
 export type EffectUnresolved = TurnModifierUnresolved | TagOverrideUnresolved

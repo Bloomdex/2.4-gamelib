@@ -4,7 +4,7 @@ import turnInfoReducer from "./reducers/turnInfo"
 import flagsReducer from "./reducers/flags"
 import seedReducer from "./reducers/seed"
 import { Initialise, ActionType } from "./actions"
-import { checkCardTags, checkEmptyStack } from "./middlewares"
+import { checkCardTags } from "./middlewares"
 
 // const reducer = combineReducers({
 // 	playedCards,
@@ -23,10 +23,10 @@ const reducer: Reducer<RootState, any> = (state, action) => ({
 	cards: playedCardsReducer(state?.cards, action, state as RootState),
 	turnInfo: turnInfoReducer(state?.turnInfo, action),
 	flags: flagsReducer(state?.flags, action),
-	seed: seedReducer(state?.seed!, action),
+	seed: seedReducer(state?.seed!, action, state as RootState),
 })
 
-const middleware = applyMiddleware(checkCardTags, checkEmptyStack)
+const middleware = applyMiddleware(checkCardTags)
 
 const createGame = (options: Initialise["payload"]) => {
 	const store = createStore(reducer, middleware)
