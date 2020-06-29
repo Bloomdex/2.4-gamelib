@@ -8,7 +8,7 @@ const tagOverrideOption = `tag-override-${uuid()}`
 
 const pesten: GameRules = {
 	cards: withJokers.map(card => {
-		const { tags, effects, options, ...rest } = clone(card)
+		const { tags, playableOnTags, effects, options, ...rest } = clone(card)
 		switch (tags[0]) {
 			case "7":
 				effects!.push({ type: EffectType.TurnModifier, turns: 0 })
@@ -28,7 +28,7 @@ const pesten: GameRules = {
 				effects!.push({ type: EffectType.ReversePlayOrder })
 				break
 		}
-		return { tags, effects, options, ...rest }
+		return { tags, playableOnTags, effects, options, ...rest }
 	}),
 	minPlayers: 2,
 	startingCards: 7,
