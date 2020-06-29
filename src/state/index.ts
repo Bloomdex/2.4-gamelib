@@ -40,4 +40,3 @@ const createGame = (options: Initialise["payload"]) => {
 export const restoreGame = (existingState: RootState) => createStore(reducer, existingState, middleware)
 
 export default createGame
-export type State = ReturnType<ReturnType<typeof createGame>["getState"]>

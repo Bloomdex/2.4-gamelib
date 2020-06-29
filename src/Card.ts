@@ -3,7 +3,7 @@ import Effect, { EffectUnresolved, OptionId } from "./effects"
 export interface Card {
 	id: string
 	tags: string[]
-	playableOnTags: string[]
+	playableOnTags?: string[]
 	effects?: (Effect | EffectUnresolved)[]
 	options?: Record<OptionId, Option>
 }
