@@ -51,3 +51,25 @@ export function resolveActiveTags(state: RootState) {
 	}
 	return activeTags
 }
+
+export function rotateArray<T>(original: T[], steps: number): T[] {
+	const result = [...original]
+
+	if (steps > 0) {
+		for (let i = 0; i < steps; i++) {
+			for (let j = 0; j < result.length - 1; j++) {
+				const element: T = result.shift()!;
+				result.push(element)
+			}
+		}
+	} else if (steps < 0) {
+		for (let i = steps; i < 0; i++) {
+			for (let j = 0; j < result.length - 1; j++) {
+				const element: T = result.pop()!;
+				result.unshift(element)
+			}
+		}
+	}
+
+	return result
+}

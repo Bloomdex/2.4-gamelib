@@ -1,8 +1,8 @@
 import { Card, cardEquals } from "../../Card"
 import { PlayCard, Initialise, ActionType, Skip } from "../actions"
 import { RootState } from ".."
-import { shuffle } from "../../util"
-import { effectUtil, EffectType } from "../../effects"
+import { shuffle, rotateArray } from "../../util"
+import { effectUtil, EffectType, PassHandsAlong } from "../../effects"
 import turnInfo from "./turnInfo"
 
 // actions that are used in this reducer
@@ -71,6 +71,21 @@ export default function cards(state: CardsState = defaultState, action: Action, 
 			if (!cardDrawUtil.has(action.payload) && root.flags.cardDrawCounter != null) {
 				newState = drawCard(newState, root.turnInfo.current)
 			}
+		
+			let card = action.payload
+			if (card.effects != null) {
+				for (const effect of card.effects) {
+					switch (effect.type) {
+						// Reverse the turn order
+						case EffectType.PassHandsAlong:
+							if (newState.hands.length > 1) {
+								newState = passHandsAlong(newState, effect.steps)
+							}
+							break
+					}
+				}
+			}
+
 			return {
 				...newState,
 				played: [...state.played, action.payload],
@@ -125,4 +140,16 @@ export function drawCard(state: CardsState, handIndex: number, cardAmount: numbe
 			remaining: state.remaining.slice(cardAmount),
 		}
 	}
+}
+
+export function passHandsAlong(state: CardsState, direction: number): CardsState {
+	let hands: Card[][] = [...state.hands]
+
+	hands = rotateArray(hands, direction)
+
+	state = {
+		...state,
+		hands
+	}
+	return state
 }

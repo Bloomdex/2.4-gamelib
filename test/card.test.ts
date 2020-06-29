@@ -1,9 +1,9 @@
-import test from "ava"
+import test, { after } from "ava"
 import { v4 as uuid } from "uuid"
 import { resolveOptions } from "../src/Card"
-import cardsReducer, { refillStack } from "../src/state/reducers/cards"
+import cardsReducer, { refillStack, passHandsAlong } from "../src/state/reducers/cards"
 import pesten from "../rulesets/pesten"
-import { shuffle } from "../src/util"
+import { shuffle, rotateArray } from "../src/util"
 
 test("resolveOptions not nested", t => {
 	const optionA = uuid()
@@ -78,4 +78,42 @@ test("refillStack", t => {
 		},
 		refilled,
 	)
+})
+
+test("passHandsAlong positive step", t => {
+	const preShuffle = [pesten.cards.slice(0, 3), pesten.cards.slice(3, 5), pesten.cards.slice(5, 10)]
+	const afterShuffle = [pesten.cards.slice(5, 10), pesten.cards.slice(0, 3), pesten.cards.slice(3, 5)]
+
+	const state: ReturnType<typeof cardsReducer> = {
+		hands: preShuffle,
+		played: pesten.cards.slice(10),
+		remaining: [],
+		seed: {
+			seed: "A",
+			useCounter: 0,
+		},
+	}
+
+	const passedHandsAlong = passHandsAlong(state, 1);
+	const result: ReturnType<typeof cardsReducer> = passedHandsAlong
+	t.deepEqual(result.hands, afterShuffle)
+})
+
+test("passHandsAlong negative step", t => {
+	const preShuffle = [pesten.cards.slice(0, 3), pesten.cards.slice(3, 5), pesten.cards.slice(5, 10)]
+	const afterShuffle = [pesten.cards.slice(3, 5), pesten.cards.slice(5, 10), pesten.cards.slice(0, 3)]
+
+	const state: ReturnType<typeof cardsReducer> = {
+		hands: preShuffle,
+		played: pesten.cards.slice(10),
+		remaining: [],
+		seed: {
+			seed: "A",
+			useCounter: 0,
+		},
+	}
+
+	const passedHandsAlong = passHandsAlong(state, -1);
+	const result: ReturnType<typeof cardsReducer> = passedHandsAlong
+	t.deepEqual(result.hands, afterShuffle)
 })

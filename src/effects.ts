@@ -8,6 +8,8 @@ enum Type {
 	TagOverride = "TAG_OVERRIDE",
 
 	DrawCard = "DRAW_CARD",
+
+	PassHandsAlong = "PASS_HANDS_ALONG",
 }
 
 export const EffectType = Type
@@ -41,16 +43,22 @@ export type DrawCard = {
 	type: Type.DrawCard
 	cards: number
 }
+// Right = 1, Left = -1
+export type PassHandsAlong = {
+	type: Type.PassHandsAlong
+	steps: number
+}
 
 type EffectTypeToEffect = {
 	[Type.TurnModifier]: TurnModifier
 	[Type.ReversePlayOrder]: ReversePlayOrder
 	[Type.TagOverride]: TagOverride
 	[Type.DrawCard]: DrawCard
+	[Type.PassHandsAlong]: PassHandsAlong
 }
 
 export type EffectUnresolved = TurnModifierUnresolved | TagOverrideUnresolved
-type Effect = TurnModifier | ReversePlayOrder | TagOverride | DrawCard
+type Effect = TurnModifier | ReversePlayOrder | TagOverride | DrawCard | PassHandsAlong
 
 export default Effect
 

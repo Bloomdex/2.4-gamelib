@@ -17,7 +17,6 @@ const pesten: GameRules = {
 			case "8":
 				effects!.push({ type: EffectType.TurnModifier, turns: 2 })
 				break
-
 			case "J":
 				effects!.push({ type: EffectType.TagOverride, override: [1, tagOverrideOption] })
 				options![tagOverrideOption] = {
@@ -33,6 +32,8 @@ const pesten: GameRules = {
 			case "Joker":
 				effects!.push({ type: EffectType.DrawCard, cards: 5 })
 				break
+			case "10":
+				effects!.push({ type: EffectType.PassHandsAlong, steps: 1 })
 		}
 		return { tags, effects, options, ...rest }
 	}),
