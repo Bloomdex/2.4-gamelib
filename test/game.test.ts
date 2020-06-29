@@ -2,7 +2,7 @@ import test from "ava"
 import createGame, { validActions } from "../src/index"
 import pesten from "../rulesets/pesten"
 
-test("my life", t => {
+test("one action", t => {
 	const game = createGame({
 		players: 3,
 		gameRules: pesten,
