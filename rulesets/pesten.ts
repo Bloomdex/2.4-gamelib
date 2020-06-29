@@ -27,6 +27,12 @@ const pesten: GameRules = {
 			case "A":
 				effects!.push({ type: EffectType.ReversePlayOrder })
 				break
+			case "2":
+				effects!.push({ type: EffectType.DrawCard, cards: 2 })
+				break
+			case "Joker":
+				effects!.push({ type: EffectType.DrawCard, cards: 5 })
+				break
 		}
 		return { tags, effects, options, ...rest }
 	}),

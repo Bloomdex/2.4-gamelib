@@ -50,7 +50,7 @@ type EffectTypeToEffect = {
 }
 
 export type EffectUnresolved = TurnModifierUnresolved | TagOverrideUnresolved
-type Effect = TurnModifier | ReversePlayOrder | TagOverride
+type Effect = TurnModifier | ReversePlayOrder | TagOverride | DrawCard
 
 export default Effect
 
