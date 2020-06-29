@@ -15,7 +15,7 @@ type CardsState = {
 	seed: SeedState
 }
 
-type SeedState = {
+export type SeedState = {
 	seed: string
 	useCounter: number
 }
@@ -103,7 +103,7 @@ function refillStack(state: CardsState): CardsState {
 	}
 }
 
-function drawCard(state: CardsState, handIndex: number, cardAmount: number = 1): CardsState {
+export function drawCard(state: CardsState, handIndex: number, cardAmount: number = 1): CardsState {
 	if (cardAmount > state.remaining.length) {
 		const availableInStack = state.remaining.length
 		let newState = drawCard(state, handIndex, availableInStack)
