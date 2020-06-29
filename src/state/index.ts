@@ -3,8 +3,9 @@ import playedCardsReducer from "./reducers/cards"
 import turnInfoReducer from "./reducers/turnInfo"
 import flagsReducer from "./reducers/flags"
 import seedReducer from "./reducers/seed"
+import winnerReducer from "./reducers/winner"
 import { Initialise, ActionType } from "./actions"
-import { checkCardTags } from "./middlewares"
+import { checkCardTags, checkWinner } from "./middlewares"
 
 // const reducer = combineReducers({
 // 	playedCards,
@@ -17,6 +18,7 @@ export type RootState = {
 	turnInfo: ReturnType<typeof turnInfoReducer>
 	flags: ReturnType<typeof flagsReducer>
 	seed: ReturnType<typeof seedReducer>
+	winner: ReturnType<typeof winnerReducer>
 }
 
 const reducer: Reducer<RootState, any> = (state, action) => ({
@@ -24,9 +26,10 @@ const reducer: Reducer<RootState, any> = (state, action) => ({
 	turnInfo: turnInfoReducer(state?.turnInfo, action),
 	flags: flagsReducer(state?.flags, action),
 	seed: seedReducer(state?.seed!, action, state as RootState),
+	winner: winnerReducer(state?.winner, action),
 })
 
-const middleware = applyMiddleware(checkCardTags)
+const middleware = applyMiddleware(checkCardTags, checkWinner)
 
 const createGame = (options: Initialise["payload"]) => {
 	const store = createStore(reducer, middleware)

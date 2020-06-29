@@ -23,3 +23,18 @@ export const logger: Middleware<{}, RootState> = store => next => (action: Actio
 	console.log("DISPATHED ACTION", JSON.stringify(action, null, 2))
 	next(action)
 }
+
+export const checkWinner: Middleware<{}, RootState> = store => next => (action: Action) => {
+	next(action)
+	for (let i = 0; i < store.getState().cards.hands.length; i++) {
+		const hand = store.getState().cards.hands[i]
+
+		if (hand.length === 0) {
+			store.dispatch({
+				type: ActionType.Win,
+				payload: i,
+			})
+			break
+		}
+	}
+}
