@@ -1,19 +1,21 @@
-import { EffectType, TagOverride, effectUtil } from "../../effects"
+import { EffectType, TagOverride, effectUtil, DrawCard } from "../../effects"
 import { PlayCard, ActionType } from "../actions"
-import { RootState } from ".."
 import { resolveOptions } from "../../Card"
 
 const tagOverrrideUtil = effectUtil(EffectType.TagOverride)
+const cardDrawUtil = effectUtil(EffectType.DrawCard)
 
 // actions that are used in this reducer
 type Action = PlayCard
 
 type FlagsState = {
 	tagOverride: TagOverride["override"] | null
+	cardDrawCounter: DrawCard["cards"] | null
 }
 
 const defaultState = {
 	tagOverride: null,
+	cardDrawCounter: null,
 }
 
 // Reducer to keep track of global flags
@@ -33,6 +35,24 @@ export default function flags(state: FlagsState = defaultState, action: Action):
 				newState = {
 					...newState,
 					tagOverride: null,
+				}
+			}
+			if (cardDrawUtil.has(card)) {
+				if (newState.cardDrawCounter == null) {
+					newState = {
+						...newState,
+						cardDrawCounter: cardDrawUtil.get(card)!.cards,
+					}
+				} else {
+					newState = {
+						...newState,
+						cardDrawCounter: newState.cardDrawCounter + cardDrawUtil.get(card)!.cards,
+					}
+				}
+			} else {
+				newState = {
+					...newState,
+					cardDrawCounter: null,
 				}
 			}
 			return newState
