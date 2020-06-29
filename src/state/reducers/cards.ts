@@ -68,7 +68,7 @@ export default function cards(state: CardsState = defaultState, action: Action, 
 		case ActionType.PlayCard:
 			let newState = state
 			if (!cardDrawUtil.has(action.payload) && root.flags.cardDrawCounter != null) {
-				newState = drawCard(newState, root.turnInfo.current)
+				newState = drawCard(newState, root.turnInfo.current, root.flags.cardDrawCounter)
 			}
 
 			let card = action.payload
@@ -87,8 +87,8 @@ export default function cards(state: CardsState = defaultState, action: Action, 
 
 			return {
 				...newState,
-				played: [...state.played, action.payload],
-				hands: state.hands.map((hand, playerIndex) => {
+				played: [...newState.played, action.payload],
+				hands: newState.hands.map((hand, playerIndex) => {
 					if (playerIndex === root.turnInfo.current) {
 						return hand.filter(card => !cardEquals(card, action.payload))
 					} else {

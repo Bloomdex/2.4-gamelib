@@ -4,6 +4,9 @@ import { resolveOptions } from "../src/Card"
 import cardsReducer, { refillStack, passHandsAlong } from "../src/state/reducers/cards"
 import pesten from "../rulesets/pesten"
 import { shuffle, rotateArray } from "../src/util"
+import { RootState, EffectType, restoreGame } from "../src"
+import { PlayOrder } from "../src/state/reducers/turnInfo"
+import { ActionType } from "../src/state/actions"
 
 test("resolveOptions not nested", t => {
 	const optionA = uuid()
@@ -94,7 +97,7 @@ test("passHandsAlong positive step", t => {
 		},
 	}
 
-	const passedHandsAlong = passHandsAlong(state, 1);
+	const passedHandsAlong = passHandsAlong(state, 1)
 	const result: ReturnType<typeof cardsReducer> = passedHandsAlong
 	t.deepEqual(result.hands, afterShuffle)
 })
@@ -113,7 +116,88 @@ test("passHandsAlong negative step", t => {
 		},
 	}
 
-	const passedHandsAlong = passHandsAlong(state, -1);
+	const passedHandsAlong = passHandsAlong(state, -1)
 	const result: ReturnType<typeof cardsReducer> = passedHandsAlong
 	t.deepEqual(result.hands, afterShuffle)
+})
+
+test("drawCard effect", t => {
+	const state: RootState = {
+		flags: {
+			cardDrawCounter: 2,
+			tagOverride: null,
+		},
+		turnInfo: {
+			current: 1,
+			total: 3,
+			playOrder: PlayOrder.Normal,
+		},
+		winner: null,
+		cards: {
+			hands: [
+				[
+					{
+						id: "1",
+						tags: ["J", "Hearts"],
+					},
+				],
+				[
+					{
+						id: "2",
+						tags: ["Q", "Clubs"],
+					},
+				],
+				[
+					{
+						id: "3",
+						tags: ["4", "Diamonds"],
+					},
+				],
+			],
+			played: [{ id: "4", tags: ["2", "Clubs"], effects: [{ type: EffectType.DrawCard, cards: 2 }] }],
+			remaining: [
+				{ id: "5", tags: ["3", "Hearts"] },
+				{ id: "6", tags: ["5", "Diamonds"] },
+			],
+			seed: {
+				seed: "test seed",
+				useCounter: 3,
+			},
+		},
+	}
+
+	const game = restoreGame(state)
+	t.deepEqual(game.getState(), state)
+	game.dispatch({
+		type: ActionType.PlayCard,
+		payload: state.cards.hands[state.turnInfo.current][0],
+		options: {},
+	})
+
+	const expectedState: RootState = {
+		...state,
+		turnInfo: {
+			...state.turnInfo,
+			current: state.turnInfo.current + 1,
+		},
+		flags: {
+			...state.flags,
+			cardDrawCounter: null,
+		},
+		winner: null,
+		cards: {
+			hands: state.cards.hands.map((hand, index) => {
+				if (index === state.turnInfo.current) {
+					return state.cards.remaining
+				} else {
+					return hand
+				}
+			}),
+			played: [...state.cards.played, state.cards.hands[state.turnInfo.current][0]],
+			remaining: [],
+			seed: state.cards.seed,
+		},
+	}
+
+	t.deepEqual(expectedState, game.getState())
 })
