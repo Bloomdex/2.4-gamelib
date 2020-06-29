@@ -108,7 +108,9 @@ export function drawCard(state: CardsState, handIndex: number, cardAmount: numbe
 		const availableInStack = state.remaining.length
 		let newState = drawCard(state, handIndex, availableInStack)
 		newState = refillStack(newState)
-		newState = drawCard(newState, handIndex, cardAmount - availableInStack)
+		if (newState.remaining.length > 0) {
+			newState = drawCard(newState, handIndex, cardAmount - availableInStack)
+		}
 		return newState
 	} else {
 		return {

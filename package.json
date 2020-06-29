@@ -5,7 +5,7 @@
 	"main": "dist/src/index.js",
 	"types": "dist/src/index.d.ts",
 	"scripts": {
-		"test": "tsc --noEmit && ava",
+		"test": "tsc --noEmit && ava -T 3m",
 		"build": "tsc -d --sourceMap",
 		"postinstall": "npm run build",
 		"format": "prettier --write ./src/**/*.ts ./test/**/*.ts ./rulesets/**/*.ts",
