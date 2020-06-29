@@ -2,7 +2,7 @@ import test from "ava"
 import { v4 as uuid } from "uuid"
 import { resolveOptions } from "../src/Card"
 
-test("not nested", t => {
+test("resolveOptions not nested", t => {
 	const optionA = uuid()
 
 	const obj = {
@@ -19,7 +19,7 @@ test("not nested", t => {
 	t.deepEqual(resolved, { ...obj, someProp: "some value" })
 })
 
-test("nested", t => {
+test("resolveOptions nested", t => {
 	const optionA = uuid()
 	const optionB = uuid()
 
