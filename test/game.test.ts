@@ -1,6 +1,17 @@
 import test from "ava"
 import createGame, { validActions } from "../src/index"
 import pesten from "../rulesets/pesten"
+import SeedRandom from "seed-random"
+
+test("can create game", t => {
+	const game = createGame({
+		gameRules: pesten,
+		players: 5,
+		seed: "test",
+	})
+
+	t.pass()
+})
 
 test("one action", t => {
 	const game = createGame({
