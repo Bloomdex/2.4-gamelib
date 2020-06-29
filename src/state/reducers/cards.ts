@@ -95,7 +95,7 @@ export function refillStack(state: CardsState): CardsState {
 	return {
 		...state,
 		played: state.played.slice(-1),
-		remaining: shuffle(state.seed, state.remaining.slice(-1)),
+		remaining: shuffle(state.seed, state.played.slice(0, -1)),
 		seed: {
 			...state.seed,
 			useCounter: state.seed!.useCounter + 1,
