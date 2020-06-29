@@ -2,11 +2,11 @@ import { Card } from "../Card"
 import GameRules from "../GameRules"
 
 export enum ActionType {
-	Initialise,
-	PlayCard,
-	Skip,
+	Initialise = "INITIALISE",
+	PlayCard = "PLAY_CARD",
+	Skip = "SKIP",
 
-	Win,
+	Win = "WIN",
 }
 
 export type Action = PlayCard | Skip | Win
