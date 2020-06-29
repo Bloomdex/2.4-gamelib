@@ -1,6 +1,6 @@
 import random from "seed-random"
 import { RootState } from "./state"
-import { SeedState } from "./state/reducers/seed"
+import { SeedState } from "./state/reducers/cards"
 
 export function shuffle<T>({ seed, useCounter }: SeedState, arr: readonly T[]): T[] {
 	// https://stackoverflow.com/a/2450976
