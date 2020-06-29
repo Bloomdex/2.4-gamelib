@@ -4,7 +4,6 @@ import { v4 as uuid } from "uuid"
 
 export const cards: Card[] = [
 	{ id: uuid(), tags: ["A", "Clubs"], playableOnTags: ["Joker"], effects: [], options: {} },
-	{ id: uuid(), tags: ["1", "Clubs"], playableOnTags: ["Joker"], effects: [], options: {} },
 	{ id: uuid(), tags: ["2", "Clubs"], playableOnTags: ["Joker"], effects: [], options: {} },
 	{ id: uuid(), tags: ["3", "Clubs"], playableOnTags: ["Joker"], effects: [], options: {} },
 	{ id: uuid(), tags: ["4", "Clubs"], playableOnTags: ["Joker"], effects: [], options: {} },
@@ -18,7 +17,6 @@ export const cards: Card[] = [
 	{ id: uuid(), tags: ["Q", "Clubs"], playableOnTags: ["Joker"], effects: [], options: {} },
 	{ id: uuid(), tags: ["K", "Clubs"], playableOnTags: ["Joker"], effects: [], options: {} },
 	{ id: uuid(), tags: ["A", "Diamonds"], playableOnTags: ["Joker"], effects: [], options: {} },
-	{ id: uuid(), tags: ["1", "Diamonds"], playableOnTags: ["Joker"], effects: [], options: {} },
 	{ id: uuid(), tags: ["2", "Diamonds"], playableOnTags: ["Joker"], effects: [], options: {} },
 	{ id: uuid(), tags: ["3", "Diamonds"], playableOnTags: ["Joker"], effects: [], options: {} },
 	{ id: uuid(), tags: ["4", "Diamonds"], playableOnTags: ["Joker"], effects: [], options: {} },
@@ -32,7 +30,6 @@ export const cards: Card[] = [
 	{ id: uuid(), tags: ["Q", "Diamonds"], playableOnTags: ["Joker"], effects: [], options: {} },
 	{ id: uuid(), tags: ["K", "Diamonds"], playableOnTags: ["Joker"], effects: [], options: {} },
 	{ id: uuid(), tags: ["A", "Hearts"], playableOnTags: ["Joker"], effects: [], options: {} },
-	{ id: uuid(), tags: ["1", "Hearts"], playableOnTags: ["Joker"], effects: [], options: {} },
 	{ id: uuid(), tags: ["2", "Hearts"], playableOnTags: ["Joker"], effects: [], options: {} },
 	{ id: uuid(), tags: ["3", "Hearts"], playableOnTags: ["Joker"], effects: [], options: {} },
 	{ id: uuid(), tags: ["4", "Hearts"], playableOnTags: ["Joker"], effects: [], options: {} },
@@ -46,7 +43,6 @@ export const cards: Card[] = [
 	{ id: uuid(), tags: ["Q", "Hearts"], playableOnTags: ["Joker"], effects: [], options: {} },
 	{ id: uuid(), tags: ["K", "Hearts"], playableOnTags: ["Joker"], effects: [], options: {} },
 	{ id: uuid(), tags: ["A", "Spades"], playableOnTags: ["Joker"], effects: [], options: {} },
-	{ id: uuid(), tags: ["1", "Spades"], playableOnTags: ["Joker"], effects: [], options: {} },
 	{ id: uuid(), tags: ["2", "Spades"], playableOnTags: ["Joker"], effects: [], options: {} },
 	{ id: uuid(), tags: ["3", "Spades"], playableOnTags: ["Joker"], effects: [], options: {} },
 	{ id: uuid(), tags: ["4", "Spades"], playableOnTags: ["Joker"], effects: [], options: {} },
