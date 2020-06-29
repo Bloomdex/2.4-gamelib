@@ -24,16 +24,16 @@ export default function getValidActions(state: State): Action[] {
 	// })
 
 	const playableCards = currentplayerHand.filter(card => {
-		if (card.playableOnTags == []) {
+		if (card.playableOnTags.length === 0) {
 			for (const tag of card.tags) {
 				if (activeTags.includes(tag)) {
 					return true
 				}
 			}
 		} else {
-			for (const playableOnTag of card.playableOnTags) {
-				if (activeTags.includes(playableOnTag)) {
-					return true;
+			for (const tag of card.playableOnTags) {
+				if (activeTags.includes(tag)) {
+					return true
 				}
 			}
 		}
