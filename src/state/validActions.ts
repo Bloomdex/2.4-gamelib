@@ -1,11 +1,11 @@
 import { ActionType, Action } from "./actions"
-import { State } from "./index"
+import { RootState } from "./index"
 import {} from "../../rulesets/pesten"
 import { Card } from "../Card"
 import { resolveActiveTags } from "../util"
 
 export const cardIsPlayable = (activeTags: string[]) => (card: Card) => {
-	if (card.playableOnTags.length === 0) {
+	if (card.playableOnTags == null || card.playableOnTags.length === 0) {
 		for (const tag of card.tags) {
 			if (activeTags.includes(tag)) {
 				return true
@@ -26,7 +26,7 @@ export const cardIsPlayable = (activeTags: string[]) => (card: Card) => {
  * @param state the base state to advance from
  * @returns Action[] of possible actions for the player
  */
-export default function getValidActions(state: State): Action[] {
+export default function getValidActions(state: RootState): Action[] {
 	const currentplayerHand = state.cards.hands[state.turnInfo.current]
 	const activeTags = resolveActiveTags(state)
 
