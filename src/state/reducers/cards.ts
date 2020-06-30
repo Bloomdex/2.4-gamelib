@@ -96,14 +96,13 @@ export default function cards(state: CardsState = defaultState, action: Action, 
 					}
 				}),
 			}
-
+		case ActionType.Draw:
 		case ActionType.Skip:
 			if (root.flags.cardDrawCounter != null) {
 				return drawCard(state, root.turnInfo.current, 1 + root.flags.cardDrawCounter)
 			} else {
 				return drawCard(state, root.turnInfo.current)
 			}
-
 		default:
 			return state
 	}

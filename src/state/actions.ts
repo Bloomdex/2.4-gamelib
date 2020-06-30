@@ -5,11 +5,11 @@ export enum ActionType {
 	Initialise = "INITIALISE",
 	PlayCard = "PLAY_CARD",
 	Skip = "SKIP",
-
 	Win = "WIN",
+	Draw = "DRAW",
 }
 
-export type Action = PlayCard | Skip | Win | Initialise
+export type Action = PlayCard | Skip | Win | Initialise | Draw
 
 export type Initialise = {
 	type: ActionType.Initialise
@@ -35,4 +35,8 @@ export type Skip = {
 export type Win = {
 	type: ActionType.Win
 	payload: number // the index of the winning player
+}
+
+export type Draw = {
+	type: ActionType.Draw
 }

@@ -3,6 +3,8 @@ import { RootState } from "./index"
 import {} from "../../rulesets/pesten"
 import { Card } from "../Card"
 import { resolveActiveTags } from "../util"
+import { EffectType, effectUtil } from "../effects"
+import { drawCard } from "./reducers/cards"
 
 export const cardIsPlayable = (activeTags: string[]) => (card: Card) => {
 	if (card.playableOnTags == null || card.playableOnTags.length === 0) {
@@ -44,6 +46,9 @@ export default function getValidActions(state: RootState): Action[] {
 
 	const possibleActions: Action[] = []
 
+	const cardDrawUtil = effectUtil(EffectType.DrawCard)
+	const canDraw = false
+
 	// Convert all the possible cards to actions
 	for (const card of playableCards) {
 		if (card.options == null || Object.keys(card.options).length === 0) {
@@ -63,6 +68,18 @@ export default function getValidActions(state: RootState): Action[] {
 				}
 			}
 		}
+
+		if (card.effects != null) {
+			if (cardDrawUtil.has(card)) {
+				if (!canDraw) {
+					possibleActions.push({
+						type: ActionType.Draw
+					})
+					canDraw
+				}
+				
+			}
+		}
 	}
 
 	// Add the skip action to the possibilities
@@ -70,10 +87,8 @@ export default function getValidActions(state: RootState): Action[] {
 		type: ActionType.Skip,
 	})
 
+
+
 	// Return the possible actions
 	return possibleActions
-
-	// Jack is handed off to UI with all 4 possible effects as a possible action
-	// UI let's the user pick an effect
-	// UI turns the Jack into a playcard action with the right effect
 }
