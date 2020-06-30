@@ -44,7 +44,11 @@ export function resolveActiveTags(state: RootState) {
 	const { tagOverride } = state.flags
 	if (tagOverride != null) {
 		if (tagOverride[0] != null) {
-			activeTags[tagOverride[0]] = tagOverride[1]
+			if (activeTags[tagOverride[0]] != null) {
+				activeTags[tagOverride[0]] = tagOverride[1]
+			} else {
+				activeTags.push(tagOverride[1])
+			}
 		} else {
 			activeTags.push(tagOverride[1])
 		}

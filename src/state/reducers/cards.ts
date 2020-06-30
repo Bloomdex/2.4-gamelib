@@ -67,25 +67,16 @@ export default function cards(state: CardsState = defaultState, action: Action, 
 		// Play a card from the players hand
 		case ActionType.PlayCard:
 			let newState = state
+			
+			// Draw cards if needed
 			if (!cardDrawUtil.has(action.payload) && root.flags.cardDrawCounter != null) {
 				newState = drawCard(newState, root.turnInfo.current, root.flags.cardDrawCounter)
 			}
 
+			// Play the card
 			let card = action.payload
-			if (card.effects != null) {
-				for (const effect of card.effects) {
-					switch (effect.type) {
-						// Reverse the turn order
-						case EffectType.PassHandsAlong:
-							if (newState.hands.length > 1) {
-								newState = passHandsAlong(newState, effect.steps)
-							}
-							break
-					}
-				}
-			}
 
-			return {
+			newState = {
 				...newState,
 				played: [...newState.played, action.payload],
 				hands: newState.hands.map((hand, playerIndex) => {
@@ -96,6 +87,22 @@ export default function cards(state: CardsState = defaultState, action: Action, 
 					}
 				}),
 			}
+
+			// Process effects
+			if (card.effects != null) {
+				for (const effect of card.effects) {
+					switch (effect.type) {
+						// Pass Hands along
+						case EffectType.PassHandsAlong:
+							if (newState.hands.length > 1) {
+								newState = passHandsAlong(newState, effect.steps)
+							}
+							break
+					}
+				}
+			}
+
+			return newState
 		case ActionType.Draw:
 		case ActionType.Skip:
 			if (root.flags.cardDrawCounter != null) {
