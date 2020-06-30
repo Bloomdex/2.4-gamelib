@@ -45,25 +45,27 @@ export function resolveActiveTags(state: RootState): string[] {
 	const { tagOverride } = state.flags
 
 	if (tagOverride != null) {
-		// Check if there are tags to override 
+		// Check if there are tags to override
 		if (tagOverride[0] != null && tagOverride[0] != []) {
 			// We have tags to override
 			let tagsToOverride: string[] = []
+			
+			// Check if iterable
+			if (typeof tagOverride[0][Symbol.iterator] === 'function') {
+				// Find all the tags to override
+				for (let tag of tagOverride[0]) {
+					tagsToOverride.push(tag)
+				}
+				// Remove them
+				newActiveTags = newActiveTags.filter(function(val){
+					return (tagsToOverride.indexOf(val) == -1 ? true : false)
+				})
 
-			// Find all the tags to override
-			for (let tag of tagOverride[0]) {
-				tagsToOverride.push(tag)
-			}
-
-			// Remove them
-			newActiveTags = newActiveTags.filter(function(val){
-				return (tagsToOverride.indexOf(val) == -1 ? true : false)
-			})
-
-			// Add the new tags
-			if (tagOverride[1] != null) {
-				for (let tag of tagOverride[1]) {
-					newActiveTags.push(tag)
+				// Add the new tags
+				if (tagOverride[1] != null) {
+					for (let tag of tagOverride[1]) {
+						newActiveTags.push(tag)
+					}
 				}
 			}
 		} else {
