@@ -47,7 +47,7 @@ export default function getValidActions(state: RootState): Action[] {
 	const possibleActions: Action[] = []
 
 	const cardDrawUtil = effectUtil(EffectType.DrawCard)
-	const canDraw = false
+	let canDraw = true
 
 	// Convert all the possible cards to actions
 	for (const card of playableCards) {
@@ -71,11 +71,11 @@ export default function getValidActions(state: RootState): Action[] {
 
 		if (card.effects != null) {
 			if (cardDrawUtil.has(card)) {
-				if (!canDraw) {
+				if (canDraw) {
 					possibleActions.push({
 						type: ActionType.Draw
 					})
-					canDraw
+					canDraw = false
 				}
 				
 			}
