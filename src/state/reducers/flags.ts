@@ -55,6 +55,12 @@ export default function flags(state: FlagsState = defaultState, action: Action):
 				}
 			}
 			return newState
+
+		case ActionType.Skip:
+			return {
+				...state,
+				cardDrawCounter: null,
+			}
 		default:
 			return state
 	}
