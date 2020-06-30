@@ -37,23 +37,58 @@ export function repeat<T>(element: T, amount: number): T[] {
 	}
 }
 
-export function resolveActiveTags(state: RootState) {
+export function resolveActiveTags(state: RootState): string[] {
 	const lastPlayedCard = state.cards.played[state.cards.played.length - 1]
 
 	const activeTags = lastPlayedCard.tags
+	let newActiveTags = [...activeTags]
 	const { tagOverride } = state.flags
+
 	if (tagOverride != null) {
-		if (tagOverride[0] != null) {
-			if (activeTags[tagOverride[0]] != null) {
-				activeTags[tagOverride[0]] = tagOverride[1]
-			} else {
-				activeTags.push(tagOverride[1])
+		// Check if there are tags to override 
+		if (tagOverride[0] != null && tagOverride[0] != []) {
+			// We have tags to override
+			let tagsToOverride: string[] = []
+
+			// Find all the tags to override
+			for (let tag of tagOverride[0]) {
+				tagsToOverride.push(tag)
+			}
+
+			// Remove them
+			newActiveTags = newActiveTags.filter(function(val){
+				return (tagsToOverride.indexOf(val) == -1 ? true : false)
+			})
+
+			// Add the new tags
+			if (tagOverride[1] != null) {
+				for (let tag of tagOverride[1]) {
+					newActiveTags.push(tag)
+				}
 			}
 		} else {
-			activeTags.push(tagOverride[1])
+			// Nothing to override, so add them
+			// Add the new tags
+			if (tagOverride[1] != null) {
+				for (let tag of tagOverride[1]) {
+					newActiveTags.push(tag)
+				}
+			}
 		}
-	}
-	return activeTags
+	}	
+
+	// if (tagOverride != null) {
+	// 	if (tagOverride[0] != null) {
+	// 		if (activeTags[tagOverride[0]] != null) {
+	// 			activeTags[tagOverride[0]] = tagOverride[1]
+	// 		} else {
+	// 			activeTags.push(tagOverride[1])
+	// 		}
+	// 	} else {
+	// 		activeTags.push(tagOverride[1])
+	// 	}
+	// }
+	return newActiveTags
 }
 
 export function rotateArray<T>(original: T[], steps: number): T[] {

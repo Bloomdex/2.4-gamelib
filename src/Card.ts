@@ -9,7 +9,7 @@ export interface Card {
 }
 
 export type Option = {
-	choices: string[]
+	choices: string[][]
 }
 
 export function cardEquals(a: Card, b: Card): boolean {

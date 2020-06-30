@@ -24,6 +24,7 @@ export default function flags(state: FlagsState = defaultState, action: Action):
 			let { payload: card } = action
 			card = resolveOptions(card, action.options)
 			let newState = state
+
 			if (tagOverrrideUtil.has(card)) {
 				const tagOverride = tagOverrrideUtil.get(card)!
 				newState = {
@@ -36,6 +37,7 @@ export default function flags(state: FlagsState = defaultState, action: Action):
 					tagOverride: null,
 				}
 			}
+			
 			if (cardDrawUtil.has(card)) {
 				if (newState.cardDrawCounter == null) {
 					newState = {

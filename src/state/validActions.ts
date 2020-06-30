@@ -7,13 +7,14 @@ import { EffectType, effectUtil } from "../effects"
 import { drawCard } from "./reducers/cards"
 
 export const cardIsPlayable = (activeTags: string[]) => (card: Card) => {
+	// No playableOnTags
 	if (card.playableOnTags == null || card.playableOnTags.length === 0) {
 		for (const tag of card.tags) {
 			if (activeTags.includes(tag)) {
 				return true
 			}
 		}
-	} else {
+	} else { // Using playableOnTags
 		for (const tag of card.playableOnTags) {
 			if (activeTags.includes(tag)) {
 				return true
@@ -51,6 +52,7 @@ export default function getValidActions(state: RootState): Action[] {
 
 	// Convert all the possible cards to actions
 	for (const card of playableCards) {
+
 		if (card.options == null || Object.keys(card.options).length === 0) {
 			possibleActions.push({
 				type: ActionType.PlayCard,
@@ -69,6 +71,7 @@ export default function getValidActions(state: RootState): Action[] {
 			}
 		}
 
+
 		if (card.effects != null) {
 			if (cardDrawUtil.has(card)) {
 				if (canDraw) {
@@ -86,8 +89,6 @@ export default function getValidActions(state: RootState): Action[] {
 	possibleActions.push({
 		type: ActionType.Skip,
 	})
-
-
 
 	// Return the possible actions
 	return possibleActions

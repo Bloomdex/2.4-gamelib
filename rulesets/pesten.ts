@@ -18,9 +18,9 @@ const pesten: GameRules = {
 				effects!.push({ type: EffectType.TurnModifier, turns: 2 })
 				break
 			case "J":
-				effects!.push({ type: EffectType.TagOverride, override: [1, tagOverrideOption] })
+				effects!.push({ type: EffectType.TagOverride, override: [[tags[1]], tagOverrideOption] })
 				options![tagOverrideOption] = {
-					choices: ["Clubs", "Diamonds", "Hearts", "Spades"],
+					choices: [["Clubs"], ["Diamonds"], ["Hearts"], ["Spades"]],
 				}
 				break
 			case "A":

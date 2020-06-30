@@ -31,12 +31,12 @@ export type ReversePlayOrder = {
 
 export type TagOverride = {
 	type: Type.TagOverride
-	override: [number | null, string] // a from, to tuple
+	override: [string[] | null, string] // a from, to tuple
 }
 
 export type TagOverrideUnresolved = {
 	type: Type.TagOverride
-	override: [number | null, OptionId]
+	override: [string[] | null, OptionId]
 }
 
 export type DrawCard = {

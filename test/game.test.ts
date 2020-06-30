@@ -65,14 +65,14 @@ const randomUntilWin = (t: ExecutionContext, seed: string) => {
 		gameRules: pesten,
 		seed: seed,
 	})
-
 	const random = SeedRandom("seed")
 	const pickRandom = <T>(arr: T[]): T => arr[Math.floor(random() * arr.length)]
 
 	const actionHistory = []
-
 	while (game.getState().winner == null) {
-		const nextAction = pickRandom(validActions(game.getState()))
+		const state = game.getState()
+		const vAction = validActions(state)
+		const nextAction = pickRandom(vAction)
 		actionHistory.push(nextAction)
 		try {
 			game.dispatch(nextAction)
