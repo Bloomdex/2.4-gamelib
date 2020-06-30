@@ -7,6 +7,6 @@
 
 export { default, restoreGame, RootState } from "./state/index"
 export { default as validActions } from "./state/validActions"
-export { PlayCard, Skip, Action } from "./state/actions"
+export { PlayCard, Skip, Action, ActionType } from "./state/actions"
 
 export { EffectType, TurnModifier, ReversePlayOrder, TagOverride } from "./effects"
