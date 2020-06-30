@@ -55,7 +55,7 @@ export default function flags(state: FlagsState = defaultState, action: Action):
 				}
 			}
 			return newState
-
+		case ActionType.Draw:
 		case ActionType.Skip:
 			return {
 				...state,
