@@ -53,6 +53,9 @@ export default function getValidActions(state: RootState): Action[] {
 	// Convert all the possible cards to actions
 	for (const card of playableCards) {
 
+		console.log("TEST")
+		console.log(card.effects)
+
 		if (card.options == null || Object.keys(card.options).length === 0) {
 			possibleActions.push({
 				type: ActionType.PlayCard,
@@ -70,24 +73,17 @@ export default function getValidActions(state: RootState): Action[] {
 				}
 			}
 		}
-
-
-		if (card.effects != null) {
-			if (cardDrawUtil.has(card)) {
-				if (canDraw) {
-					possibleActions.push({
-						type: ActionType.Draw
-					})
-					canDraw = false
-				}
-				
-			}
-		}
 	}
 
 	// Add the skip action to the possibilities
 	possibleActions.push({
 		type: ActionType.Skip,
+	})
+
+	// TODO: Only send this when neccesary
+	// Add the skip action to the possibilities
+	possibleActions.push({
+		type: ActionType.Draw,
 	})
 
 	// Return the possible actions
