@@ -77,11 +77,11 @@ export default function getValidActions(state: RootState): Action[] {
 		type: ActionType.Skip,
 	})
 
-	// TODO: Only send this when neccesary
-	// Add the skip action to the possibilities
-	possibleActions.push({
-		type: ActionType.Draw,
-	})
+	// // TODO: Only send this when neccesary
+	// // Add the skip action to the possibilities
+	// possibleActions.push({
+	// 	type: ActionType.Draw,
+	// })
 
 	// Return the possible actions
 	return possibleActions
